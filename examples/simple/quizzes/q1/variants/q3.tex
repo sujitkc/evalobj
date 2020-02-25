@@ -1,0 +1,121 @@
+\documentclass[addpoints,11pt]{exam}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,shadows}
+\usetikzlibrary{automata,positioning,shapes,arrows,backgrounds,fit}
+
+\author{}
+\title{\includegraphics[height=0.53in]{/home/sujit/IIITB/misc/iiitbLogo.jpeg} \\ Programming I (Python) \\ Assignment 1}
+
+\date{}
+\definecolor{lightblue}{rgb}{0.8,0.93,1.0} % color values Red, Green, Blue
+\definecolor{Blue}{rgb}{0,0,1.0} % color values Red, Green, Blue
+\definecolor{Red}{rgb}{1,0,0} % color values Red, Green, Blue
+\definecolor{Pink}{rgb}{0.7,0,0.2}
+\definecolor{links}{HTML}{2A1B81}
+\definecolor{mydarkgreen}{HTML}{126215}
+
+\newcommand{\myprod}[0]{\hspace{0.5cm}$\rightarrow$\hspace{0.5cm}}
+\newcommand{\mychoice}[0]{\hspace{0.75cm}$|$\hspace{0.25cm}}
+\newcommand{\myderiv}[0]{\hspace{0.5cm}$\Rightarrow$\hspace{0.5cm}}
+
+\begin{document}
+  \tikzstyle{fun} = [draw=gray, thick, fill=white, rounded corners, rectangle, inner sep=1cm]
+\maketitle
+
+\lstset{
+	language = Python,
+	basicstyle = \small,
+	stringstyle = \ttfamily,
+	keywordstyle=\color{black}\bfseries,
+	identifierstyle=\color{black},
+	frameround=tttt,
+	numbers=none,
+	showstringspaces=false
+}
+%\pointsinrightmargin
+
+\thispagestyle{head}
+\begin{questions}
+\question What are the features of a first class object in a programming language?
+\begin{enumerate}
+\item Can be called as a procedure
+\item Can be passed as a parameter to a function
+\item Can be used as a type
+\item Can be returned from a function as a value
+\item Can be stored in a data-structure
+\item Can be imported as a module
+\end{enumerate}\question of the following will typecheck:
+\begin{enumerate}
+\item \lstinline@1 +. 2@
+\item \lstinline@1 + 2@
+\item \lstinline@1. +. 2.@
+\item \lstinline@1.0 + 2.0@
+\item \lstinline@1.0 +. 2.0@
+\item \lstinline@1. +. 2@
+\end{enumerate}\question When we use one of the OCaml compilers to compile an OCaml program \lstinline@program.ml@, the compiler name and object code file name are related as follows:
+\begin{enumerate}
+\item ocamlc $\mapsto$ \lstinline@program.mlo@
+\item ocamlopt $\mapsto$ \lstinline@program.mlo@
+\item ocamlc $\mapsto$ \lstinline@program.mlc@
+\item ocamlc $\mapsto$ \lstinline@program.cmo@
+\item ocamlc $\mapsto$ \lstinline@program.cmx@
+\item ocamlopt $\mapsto$ \lstinline@program.cmo@
+\item ocamlopt $\mapsto$ \lstinline@program.cmx@
+\end{enumerate}\question The name of the OCaml debugger is:
+\begin{enumerate}
+\item ogdb
+\item odebug
+\item ocamldebug
+\item ocamlgdb
+\end{enumerate}\question Which of the below are true about OCaml type system?
+\begin{enumerate}
+  \item Statically typed
+  \item Dynamically typed
+  \item Implicitly typed
+  \item Explicitly typed
+  \item Both implicitly and explicitly typed
+\end{enumerate} 
+\question Which of the following statements is true about OCaml expressions:
+\begin{enumerate}
+\item OCaml expressions can't have side-effects.
+\item OCaml expressions evaluate to a single value.
+\item Every expression has exactly one type.
+\item The type of the expression depends of the values evaluated so far.
+\end{enumerate}\question Which of the following are true about OCaml programs:
+\begin{enumerate}
+\item OCaml programs must always be written on the top loop.
+\item OCaml programs must be written in a file like in C.
+\item OCaml programs must always be compiled explicitly before being executed.
+\item OCaml compiler always produces native machine code as output as in C.
+\item OCaml compiler always produces bytecode as output as in Java.
+\item OCaml compiler can be used to produce either machine code or byte code as per user preference.
+\end{enumerate}\question Which of the following are true about Lisp programming language:
+\begin{enumerate}
+\item Strictly typed
+\item Statically typed
+\item Dynamically typed
+\item Safe
+\end{enumerate}\question Which of the following are true about OCaml commands:
+\begin{enumerate}
+\item They are pure commands.
+\item They always produce a value.
+\item They may produce a value.
+\item They do not produce a value.
+\end{enumerate}\question A working definition of a ``safe" programming language is:
+\begin{enumerate}
+\item A program written in the programming language can't ever fail.
+\item A valid program will never fault because of an invalid machine operation.
+\item There are no runtime type errors.
+\item Type conversions are disallowed.
+\end{enumerate}\end{questions}
+\end{document}

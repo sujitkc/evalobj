@@ -1,0 +1,56 @@
+rollnums=(
+  imt2017002
+  imt2017003
+  imt2017004
+  imt2017006
+  imt2017007
+  imt2017008
+  imt2017009
+  imt2017010
+  imt2017011
+  imt2017012
+  imt2017013
+  imt2017016
+  imt2017017
+  imt2017018
+  imt2017019
+  imt2017020
+  imt2017021
+  imt2017022
+  imt2017023
+  imt2017025
+  imt2017026
+  imt2017027
+  imt2017028
+  imt2017030
+  imt2017032
+  imt2017033
+  imt2017034
+  imt2017035
+  imt2017037
+  imt2017038
+  imt2017039
+  imt2017041
+  imt2017042
+  imt2017043
+  imt2017044
+  imt2017045
+  imt2017046
+  imt2017047
+  imt2017517
+  imt2017521
+  imt2017522
+  imt2017024
+  imt2017031
+  imt2015001
+  imt2016016
+  imt2016021
+  imt2016032
+  imt2016061
+  imt2016066
+  imt2016084
+)
+
+for rollnum in ${rollnums[@]}; do
+  cp answers.csv ../submissions/${rollnum}.csv
+done

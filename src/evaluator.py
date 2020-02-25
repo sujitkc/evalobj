@@ -8,7 +8,7 @@ import subprocess
 import functools
 import traceback
 
-import utils as U
+# import utils as U
 
 class QType:
   def __init__(self, n, tm):
@@ -306,9 +306,9 @@ class Evaluator:
 class JumbledEvaluator(Evaluator):
   def __init__(self, qtypes, courseHome, RNtoQPFile = "RNtoQP.csv", AItoQPFile = "AItoQP.csv",
                 AItoIBIFile = "AItoIBI"):
-    self.RNtoQP     = U.CSVReader.readRNtoQP(RNtoQPFile)
-    self.AItoQP     = U.CSVReader.readAItoQP(AItoQPFile)
-    self.AItoIBI    = U.CSVReader.readAItoIBIFile(AItoIBIFile)
+    self.RNtoQP     = utils.CSVReader.readRNtoQP(RNtoQPFile)
+    self.AItoQP     = utils.CSVReader.readAItoQP(AItoQPFile)
+    self.AItoIBI    = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, courseHome)
 
   def rearrange(self, ai, iresponses):
