@@ -9,8 +9,8 @@ class QPGenerator:
       AIs, # assessment instruments
       numOfQuestions,
       QPperAI,
-      AI_dir = "../assessment-instruments/",
-      QP_dir = "../question-papers/",
+      AI_dir = "../examples/simple/quizzes/q1/assessment-instruments/",
+      QP_dir = "../examples/simple/quizzes/q1/question-papers/",
       aitoqp_file = "AItoQP.csv"
   ):
     self.course         = course
@@ -90,8 +90,8 @@ class QPGenerator:
         fout.write(row + "\n")
 
 if __name__ == "__main__":
-  AIs = ["ai" + str(qnum) for qnum in range(1, 6)]
-  qpg = QPGenerator("Programming Languages", "Quiz 1", AIs, numOfQuestions=10, QPperAI=10)
+  AIs = ["ai" + str(qnum) for qnum in range(1, 4)]
+  qpg = QPGenerator("Programming Languages", "Quiz 1", AIs, numOfQuestions=5, QPperAI=2)
   qpg.genQPs()
   print(qpg.AItoQP)
   qpg.writeAItoQP()

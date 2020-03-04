@@ -7,8 +7,8 @@ class AIGenerator:
       items,
       numOfQuestions,
       numOfAIs,
-      s = "../item-bank/",
-      d = "../assessment-instruments/",
+      s = "../examples/simple/quizzes/q1/item-bank/",
+      d = "../examples/simple/quizzes/q1/assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
   ):
     self.items          = items
@@ -49,6 +49,6 @@ class AIGenerator:
 
 if __name__ == "__main__":
   items = ["item" + str(qnum) for qnum in range(1, 16)]
-  aig = AIGenerator(items, 10, 5)
+  aig = AIGenerator(items, 5, 3)
   aig.genAIs()
   aig.writeAItoIBI()

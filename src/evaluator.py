@@ -8,7 +8,8 @@ import subprocess
 import functools
 import traceback
 
-# import utils as U
+sys.path.append("/Users/vibhavagarwal/Desktop/evalobj/src")
+import utils as U
 
 class QType:
   def __init__(self, n, tm):
@@ -87,7 +88,7 @@ class Reader:
     rowNum = 0
     # for row in csvContents:
     rows = list(csvContents)
-    while(rowNum < len(self.questionTypes)):
+    while(rowNum < len(rows)):
       row = rows[rowNum]
       trimmedRow = [cell for cell in row if cell is not ""]
       if(len(trimmedRow) != 0):
@@ -166,6 +167,16 @@ class IncompatibleLengthError(Exception):
 class FileNotExistsError(Exception):
   def __init__(self, filename):
     Exception.__init__(self, "File " + filename + " doesn't exist.")
+
+class MappingNotFoundError(Exception):
+  def __init__(self, mp, val):
+    if mp == 'RNtoQP':
+      st = f"Roll Number: {val}."
+    elif mp == 'AItoIBI':
+      st = f"AI: {val}."
+    elif mp == 'AItoQP':
+      st = f"Question Paper: {val}."
+    Exception.__init__(self, f"{mp} mapping not found for {st}")
 
 class Question:
   def __init__(self, e, qtype):
@@ -279,14 +290,14 @@ class Evaluator:
   def totalMarks(self):
     return self.referenceScore.total
 
-  def getAnswerSheet(self, ansfile):
+  def getAnswerSheet(self, ansfile, rollNumber):
     return self.areader.readAnswers(ansfile)
 
   def __evaluate__(self, rollNumber):
     print("evaluating ", rollNumber, " ...")
     try:
       ansfile = self.submissions_dir + rollNumber + ".csv"
-      answerSheet = self.getAnswerSheet(ansfile)
+      answerSheet = self.getAnswerSheet(ansfile, rollNumber)
       return self.questionPaper.evaluate(answerSheet, rollNumber)
     except FileNotExistsError:
       return "File " + ansfile + " not found."
@@ -304,18 +315,48 @@ class Evaluator:
 
 # Evaluator with jumbling of questions
 class JumbledEvaluator(Evaluator):
-  def __init__(self, qtypes, courseHome, RNtoQPFile = "RNtoQP.csv", AItoQPFile = "AItoQP.csv",
-                AItoIBIFile = "AItoIBI"):
-    self.RNtoQP     = utils.CSVReader.readRNtoQP(RNtoQPFile)
-    self.AItoQP     = utils.CSVReader.readAItoQP(AItoQPFile)
-    self.AItoIBI    = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
+  def __init__(
+      self,
+      qtypes,
+      courseHome,
+      RNtoQPFile="/Users/vibhavagarwal/Desktop/evalobj/src/RNtoQP.csv",
+      AItoQPFile="/Users/vibhavagarwal/Desktop/evalobj/src/AItoQP.csv",
+      AItoIBIFile="/Users/vibhavagarwal/Desktop/evalobj/src/AItoIBI.csv"):
+    self.RNtoQP = U.CSVReader.readRNtoQP(RNtoQPFile)
+    self.AItoQP = U.CSVReader.readAItoQP(AItoQPFile)
+    self.AItoIBI = U.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, courseHome)
 
   def rearrange(self, ai, iresponses):
-    oresponses = [0] * len(self.qtypes)
-    for i in range(len(self.AItoIBI[ai])):
-      oresponses[self.AItoIBI[ai][i]] = iresponses[i]
-    return oresponses
+    oresponses = [[0]] * len(self.qtypes)
+    try:
+      for ai_ibi_map in self.AItoIBI:
+        if ai in ai_ibi_map:
+          ai2ibi = ai_ibi_map[1:]
+    except MappingNotFoundError as e:
+      e('AItoIBI',ai)
+
+      ai2ibi = [i.split('item')[-1] for i in ai2ibi]
+    for i in range(len(ai2ibi)):
+      oresponses[int(ai2ibi[i])-1] = iresponses.answers[i]
+    return AnswerSheet(oresponses)
+
+  def getAIfromQP(self, qp):
+    try:
+      for ai_qp_map in self.AItoQP:
+        if qp in ai_qp_map:
+          return ai_qp_map[0]
+    except MappingNotFoundError as e:
+      e('AItoQP',qp)
+
+  def getQPfromRN(self, rn):
+    try:
+      for rn_qp_map in self.RNtoQP:
+        if rn in rn_qp_map:
+          return rn_qp_map[1]
+    except MappingNotFoundError as e:
+      e('RNtoQP',rn)
+    
 
   # This Answer reader reads the jumbled answers from the submitted response
   # from the roll number, and rearranges it by
@@ -326,6 +367,8 @@ class JumbledEvaluator(Evaluator):
   # extracting the item to item bank item for each item and rearranging the
   # answer sheet as per that.
   # This answer sheet is returned.
-  def getAnswerSheet(self, ansfile):
-    jumbledResponses = Evaluator.getAnswerSheet(self, ansfile)
-    return self.rearrange(ai, jumbledResponses) 
+  def getAnswerSheet(self, ansfile, rollNumber):
+    jumbledResponses = Evaluator.getAnswerSheet(self, ansfile, rollNumber)
+    qp = self.getQPfromRN(rollNumber)
+    ai = self.getAIfromQP(qp)
+    return self.rearrange(ai, jumbledResponses)

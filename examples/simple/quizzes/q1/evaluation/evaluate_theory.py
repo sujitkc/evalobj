@@ -2,10 +2,10 @@
 import sys
 import csv
 
-sys.path.append("/home/sujit/IIITB/projects/evalobj")
+sys.path.append("/Users/vibhavagarwal/Desktop/evalobj/")
 import src.evaluator as E
 
-class Evaluator_PL2020_Q1(E.Evaluator):
+class Evaluator_PL2020_Q1(E.JumbledEvaluator):
 
   def __init__(self, courseHome):
     qtypes = [
@@ -26,7 +26,7 @@ class Evaluator_PL2020_Q1(E.Evaluator):
       E.MCQType(7, 1),         #15
     ]
 
-    E.Evaluator.__init__(self, qtypes, courseHome)
+    E.JumbledEvaluator.__init__(self, qtypes, courseHome)
 
 if __name__ == "__main__":
 #  evaluator = Evaluator_PL2020_Q1("/home/sujit/IIITB/courses/spring2020/PL")
