@@ -335,8 +335,7 @@ class JumbledEvaluator(Evaluator):
           ai2ibi = ai_ibi_map[1:]
     except MappingNotFoundError as e:
       e('AItoIBI',ai)
-
-      ai2ibi = [i.split('item')[-1] for i in ai2ibi]
+    ai2ibi = [i.split('item')[-1] for i in ai2ibi]
     for i in range(len(ai2ibi)):
       oresponses[int(ai2ibi[i])-1] = iresponses.answers[i]
     return AnswerSheet(oresponses)
