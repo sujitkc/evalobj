@@ -2,10 +2,10 @@
 import sys
 import csv
 
-sys.path.append("/Users/vibhavagarwal/Desktop/evalobj/")
+sys.path.append("/home/sujit/IIITB/projects/evalobj-jumbled/evalobj/")
 import src.evaluator as E
 
-class Evaluator_PL2020_Q1(E.JumbledEvaluator):
+class Evaluator_JumbledExample_Q1(E.JumbledEvaluator):
 
   def __init__(self, courseHome):
     qtypes = [
@@ -29,8 +29,7 @@ class Evaluator_PL2020_Q1(E.JumbledEvaluator):
     E.JumbledEvaluator.__init__(self, qtypes, courseHome)
 
 if __name__ == "__main__":
-#  evaluator = Evaluator_PL2020_Q1("/home/sujit/IIITB/courses/spring2020/PL")
-  evaluator = Evaluator_PL2020_Q1("../../../")
+  evaluator = Evaluator_JumbledExample_Q1("../../../")
   results = evaluator.evaluate()
   for rollNumber in results:
     if(type(results[rollNumber]) == E.Score):

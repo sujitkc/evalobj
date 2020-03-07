@@ -8,8 +8,8 @@ import subprocess
 import functools
 import traceback
 
-sys.path.append("/Users/vibhavagarwal/Desktop/evalobj/src")
-import utils as U
+sys.path.append("/home/sujit/IIITB/projects/evalobj-jumbled/evalobj/src")
+import utils
 
 class QType:
   def __init__(self, n, tm):
@@ -171,12 +171,12 @@ class FileNotExistsError(Exception):
 class MappingNotFoundError(Exception):
   def __init__(self, mp, val):
     if mp == 'RNtoQP':
-      st = f"Roll Number: {val}."
+      st = "Roll Number: " + str(val) + "."
     elif mp == 'AItoIBI':
-      st = f"AI: {val}."
+      st = "AI: " + str(val) + "."
     elif mp == 'AItoQP':
-      st = f"Question Paper: {val}."
-    Exception.__init__(self, f"{mp} mapping not found for {st}")
+      st = "Question Paper: " + str(val) + "."
+    Exception.__init__(self, mp + "mapping not found for " + st)
 
 class Question:
   def __init__(self, e, qtype):
@@ -319,12 +319,12 @@ class JumbledEvaluator(Evaluator):
       self,
       qtypes,
       courseHome,
-      RNtoQPFile="/Users/vibhavagarwal/Desktop/evalobj/src/RNtoQP.csv",
-      AItoQPFile="/Users/vibhavagarwal/Desktop/evalobj/src/AItoQP.csv",
-      AItoIBIFile="/Users/vibhavagarwal/Desktop/evalobj/src/AItoIBI.csv"):
-    self.RNtoQP = U.CSVReader.readRNtoQP(RNtoQPFile)
-    self.AItoQP = U.CSVReader.readAItoQP(AItoQPFile)
-    self.AItoIBI = U.CSVReader.readAItoIBIFile(AItoIBIFile)
+      RNtoQPFile="RNtoQP.csv",
+      AItoQPFile="AItoQP.csv",
+      AItoIBIFile="AItoIBI.csv"):
+    self.RNtoQP = utils.CSVReader.readRNtoQP(RNtoQPFile)
+    self.AItoQP = utils.CSVReader.readAItoQP(AItoQPFile)
+    self.AItoIBI = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, courseHome)
 
   def rearrange(self, ai, iresponses):
