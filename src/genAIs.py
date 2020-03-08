@@ -7,8 +7,8 @@ class AIGenerator:
       items,
       numOfQuestions,
       numOfAIs,
-      s = "../examples/simple/quizzes/q1/item-bank/",
-      d = "../examples/simple/quizzes/q1/assessment-instruments/",
+      s = "item-bank/",
+      d = "assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
   ):
     self.items          = items

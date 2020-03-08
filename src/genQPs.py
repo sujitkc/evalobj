@@ -9,8 +9,8 @@ class QPGenerator:
       AIs, # assessment instruments
       numOfQuestions,
       QPperAI,
-      AI_dir = "../examples/simple/quizzes/q1/assessment-instruments/",
-      QP_dir = "../examples/simple/quizzes/q1/question-papers/",
+      AI_dir = "assessment-instruments/",
+      QP_dir = "question-papers/",
       aitoqp_file = "AItoQP.csv"
   ):
     self.course         = course

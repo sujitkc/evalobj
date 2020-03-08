@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{report}
 \usepackage{xcolor, colortbl}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -64,7 +64,7 @@
 ]
 
 \tikzstyle{jn}=[%
-      ellipse, draw=black, thick, fill=black
+      ellipse, draw=black, thick, fill=black, inner sep=0, outer sep=0,
 ]
 
 \tikzstyle{io}=[%
@@ -167,6 +167,84 @@
 \title{A System for Automated Evaluation of Objective Questions}
 \begin{document}
 
+
+\chapter{User Manual}
+This software supports two types of objective question quizzes:
+\begin{enumerate}
+\item \textbf{Simple quiz:} In this quiz, the students are supposed to answer all questions.
+\item \textbf{Jumbled quiz:} In this form of quiz, each student gets a different question paper to answer, which contains questions sampled out of a larger item bank.
+\end{enumerate}
+
+\section{Simple Quiz}
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+\node[draw=Black, fill=OliveGreen!50, align=center](qpgen){Manual \\ Question \\ Paper \\ Generation};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of qpgen](qp){Question \\ Paper};
+\node[draw=Black, fill=OliveGreen!50, align=center, right=of qp](quiz){Quiz};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of quiz](sresp){Student \\ Responses};
+\node[draw=Black, fill=OliveGreen!50, align=center, right=of sresp](seval){Simple \\ Evaluator};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of seval](res){Results};
+
+\draw[-latex, thick] (qpgen) -- (qp);
+\draw[-latex, thick] (qp) -- (quiz);
+\draw[-latex, thick] (quiz) -- (sresp);
+\draw[-latex, thick] (sresp) -- (seval);
+\draw[-latex, thick] (seval) -- (res);
+
+\end{tikzpicture}
+\end{center}
+\caption{Simple Quiz Workflow}
+\label{f:squiz}
+\end{figure}
+The question paper creation for a simple quiz is manual. All students solve an identical question paper. The evaluation step directly runs on the student responses using the \lstinline[style=pc]@SimpleEvaluator@ module.
+
+\section{Jumbled Quiz}
+\begin{figure}[H]
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}
+\node[dashed, draw=Black, fill=Pink!20, align=center](ib){Item \\ Bank};
+\node[draw=Black, fill=OliveGreen!50, align=center, right=of ib](qpgen){Automated \\ Question \\ Paper \\ Generation};
+
+\node[jn, right=0.5cm of qpgen](jn1) {};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of qpgen](qp){Question \\ Paper};
+\node[dashed, draw=Black, fill=Pink!20, align=center, above=of qp](aiibi){$AI\rightarrow IBI$};
+\node[dashed, draw=Black, fill=Pink!20, align=center, below=of qp](aiqp){$AI\rightarrow QP$};
+\node[dashed, draw=Black, fill=Pink!20, align=center, below=of aiqp](rnqp){$RN\rightarrow QP$};
+
+\node[draw=Black, fill=OliveGreen!50, align=center, right=of qp](quiz){Quiz};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of quiz](sresp){Student \\ Responses};
+\node[draw=Black, fill=OliveGreen!50, align=center, right=of sresp](jeval){Jumbled \\ Evaluator};
+\node[dashed, draw=Black, fill=Pink!20, align=center, right=of jeval](res){Results};
+
+\draw[-latex, thick] (ib) -- (qpgen);
+\draw[-, thick] (qpgen) -- (jn1);
+
+\draw[-latex, thick] (jn1) -- (qp);
+\draw[-latex, dashed, thick] (jn1) |- (aiibi);
+\draw[-latex, dashed, thick] (jn1) |- (aiqp);
+\draw[-latex, dashed, thick] (jn1) |- (rnqp);
+
+\draw[-latex, thick] (qp) -- (quiz);
+\draw[-latex, thick] (quiz) -- (sresp);
+\draw[-latex, thick] (sresp) -- (jeval);
+\draw[-latex, dashed, thick] (aiibi) -| (jeval);
+\draw[-latex, dashed, thick] (aiqp) -| (jeval);
+\draw[-latex, dashed, thick] (rnqp) -| (jeval);
+
+\draw[-latex, thick] (jeval) -- (res);
+
+\end{tikzpicture}
+}
+\end{center}
+\caption{Jumbled Quiz Workflow}
+\label{f:jquiz}
+\end{figure}
+The question paper creation step uses the \lstinline[style=pc]@genAIs@ (generate assessment items) and \lstinline@genQPs@ (generate question papers) modules. Once the question papers are generated, quiz is conducted. Finally, the automated evaluation process takes place using the \lstinline[style=pc]@JumbledEvaluator@ module.
+
+\chapter{Design}
 \section{Question Paper Codes}
 
 \subsection{Question Paper Generation}
