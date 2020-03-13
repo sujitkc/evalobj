@@ -4,6 +4,7 @@ import functools
 
 class QPGenerator:
   def __init__(self,
+      applicationHome,
       course,
       assessment,
       AIs, # assessment instruments
@@ -13,14 +14,15 @@ class QPGenerator:
       QP_dir = "question-papers/",
       aitoqp_file = "AItoQP.csv"
   ):
-    self.course         = course
-    self.assessment     = assessment
-    self.AIs            = AIs
-    self.numOfQuestions = numOfQuestions
-    self.QPperAI        = QPperAI
-    self.AI_dir         = AI_dir
-    self.QP_dir         = QP_dir
-    self.aitoqp_file    = aitoqp_file
+    self.applicationHome = applicationHome
+    self.course          = course
+    self.assessment      = assessment
+    self.AIs             = AIs
+    self.numOfQuestions  = numOfQuestions
+    self.QPperAI         = QPperAI
+    self.AI_dir          = AI_dir
+    self.QP_dir          = QP_dir
+    self.aitoqp_file     = aitoqp_file
 
     # Generate assessment instrument to question paper map.
     self.AItoQP = {}
@@ -33,13 +35,13 @@ class QPGenerator:
         self.AItoQP[ai].append(qp_nums[qp_num])
         qp_num += 1
 
-    with open("h1.tex", "r") as fin:
+    with open(self.applicationHome + "src/h1.tex", "r") as fin:
       self.h1 = fin.read()
-    with open("h1.1.tex", "r") as fin:
+    with open(self.applicationHome + "src/h1.1.tex", "r") as fin:
       self.h1_1 = fin.read()
-    with open("h2.tex", "r") as fin:
+    with open(self.applicationHome + "src/h2.tex", "r") as fin:
       self.h2 = fin.read()
-    with open("h3.tex", "r") as fin:
+    with open(self.applicationHome + "src/h3.tex", "r") as fin:
       self.h3 = fin.read()
     self.responseTable = self.getResponseTable()
 

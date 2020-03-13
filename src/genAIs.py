@@ -4,6 +4,7 @@ import functools
 
 class AIGenerator:
   def __init__(self,
+      applicationHome,
       items,
       numOfQuestions,
       numOfAIs,
@@ -11,17 +12,18 @@ class AIGenerator:
       d = "assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
   ):
-    self.items          = items
-    self.numOfQuestions = numOfQuestions
-    self.numOfAIs       = numOfAIs
-    self.src_dir        = s
-    self.dest_dir       = d
-    self.aitoibi_file   = aitoibi_file
+    self.applicationHome = applicationHome
+    self.items           = items
+    self.numOfQuestions  = numOfQuestions
+    self.numOfAIs        = numOfAIs
+    self.src_dir         = s
+    self.dest_dir        = d
+    self.aitoibi_file    = aitoibi_file
 
   # Generate a single headless assessment instrument. It is a LaTeX file with the 
   # initial part missing.
   def genAI(self, fout):
-    with open("b2.tex", "r") as fin:
+    with open(self.applicationHome + "src/b2.tex", "r") as fin:
       foot = fin.read()
     allItems = self.items[:]
     random.shuffle(allItems)

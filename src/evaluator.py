@@ -8,7 +8,7 @@ import subprocess
 import functools
 import traceback
 
-sys.path.append("/home/sujit/IIITB/projects/evalobj-jumbled/evalobj/src")
+sys.path.append("/home/sujit/IIITB/projects/evalobj/src")
 import utils
 
 class QType:
