@@ -1,0 +1,3 @@
+- evaluate_theory.py
+- Modify setup.py to deal with both types of quizzes: simple and jumbled. Right
+ now, it just does it for jumbled quizzes.
