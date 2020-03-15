@@ -8,9 +8,11 @@ import subprocess
 import functools
 import traceback
 
+
 sys.path.append("/home/sujit/IIITB/projects/evalobj/src")
 import utils
-
+import qtypes
+'''
 class QType:
   def __init__(self, n, tm):
     self.domainSize = n
@@ -24,6 +26,7 @@ class MTFQType(QType):
   def __init__(self, n1, n2, tm):
     QType.__init__(self, n1, tm)
     self.rangeSize = n2
+'''
 
 # Read from file the model answers and prepare a list of questions.
 # qtypes: Question type list. qtypes[i] is the question type of
@@ -82,17 +85,17 @@ class Reader:
     if(not os.path.isfile(fileName)):
       print(fileName + ": file does not exist.")
       raise FileNotExistsError(fileName)
-    ifile  = open(fileName, "r")
-    csvContents = csv.reader(ifile)
-    trimmedContents = []
-    rowNum = 0
-    # for row in csvContents:
-    rows = list(csvContents)
+    with open(fileName, "r") as ifile:
+      csvContents = csv.reader(ifile)
+      trimmedContents = []
+      rowNum = 0
+      rows = list(csvContents)
     while(rowNum < len(rows)):
       row = rows[rowNum]
       trimmedRow = [cell for cell in row if cell is not ""]
       if(len(trimmedRow) != 0):
-        trimmedContents.append(self.parseRow(trimmedRow, rowNum))
+        parsedRow = self.parseRow(trimmedRow, rowNum)
+        trimmedContents.append(parsedRow)
       else:
         trimmedContents.append(None)
       rowNum += 1
@@ -100,9 +103,9 @@ class Reader:
 
   def parseRow(self, row, i):
     qtype = self.questionTypes[i]
-    if(type(qtype) == MCQType):
+    if(qtype.__class__.__name__ == "MCQType"):
       return self.parseMCQ(row, qtype)
-    elif(type(qtype) == MTFQType):
+    elif(qtype.__class__.__name__ == "MTFQType"):
       return self.parseMTF(row, qtype)
     else:
       return None
@@ -268,9 +271,9 @@ class Score:
     return s
 
 class Evaluator:
-  def __init__(self, qtypes, courseHome, submissions_dir = "../submissions/theory/"):
+  def __init__(self, qtypes, rollNumberFile, submissions_dir = "../submissions/theory/"):
     self.qtypes = qtypes
-    self.courseHome = courseHome
+    self.rollNumberFile = rollNumberFile
     self.submissions_dir = submissions_dir
     self.rollNumbers = self.readRollNumbers()
     self.qreader = ReferenceReader(self.qtypes)
@@ -281,7 +284,7 @@ class Evaluator:
 
   # Procedure to read roll numbers from CSV file
   def readRollNumbers(self):
-    reader = csv.reader(open(self.courseHome + "/class.csv", 'r'))
+    reader = csv.reader(open(self.rollNumberFile, 'r'))
     rows = list(reader)
     rows.pop(0)
     return [row[0] for row in rows]
@@ -318,14 +321,14 @@ class JumbledEvaluator(Evaluator):
   def __init__(
       self,
       qtypes,
-      courseHome,
-      RNtoQPFile="RNtoQP.csv",
-      AItoQPFile="AItoQP.csv",
-      AItoIBIFile="AItoIBI.csv"):
+      rollNumberFile,
+      RNtoQPFile="../RNtoQP.csv",
+      AItoQPFile="../AItoQP.csv",
+      AItoIBIFile="../AItoIBI.csv"):
     self.RNtoQP = utils.CSVReader.readRNtoQP(RNtoQPFile)
     self.AItoQP = utils.CSVReader.readAItoQP(AItoQPFile)
     self.AItoIBI = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
-    Evaluator.__init__(self, qtypes, courseHome)
+    Evaluator.__init__(self, qtypes, rollNumberFile)
 
   def rearrange(self, ai, iresponses):
     oresponses = [[0]] * len(self.qtypes)
