@@ -95,7 +95,7 @@ class Configuration:
     # Create directories: evaluation, submission, item-bank, assessment-instruments, question-papers
     # Create item stubs in item-bank.
     # Generate file config.py (to be imported by all other scripts)
-    # Copy files: genAIs.py, genQPs.py
+    # Copy gen.py to evaluation, gen_pdfs.sh to question-papers
 
     if(not os.path.exists(self.assessmentHome)):
       print("Assessment home directory " + self.assessmentHome + " not found.")
@@ -113,6 +113,10 @@ class Configuration:
       os.mkdir(evaluationDirectory)
     else:
       print("Evaluation directory " + evaluationDirectory + " found. Doing nothing.")
+
+    if(not os.path.exists(evaluationDirectory + "evaluate.py")):
+      print("Copying evaluate.py to " + evaluationDirectory + " ...")
+      shutil.copyfile(self.applicationHome + "src/evaluate.py", self.evaluationDirectory + "evaluate.py")
 
     itemBank = self.assessmentHome + "/item-bank/"
     if(not os.path.exists(itemBank)):
@@ -134,12 +138,13 @@ class Configuration:
       os.mkdir(questionPapersDirectory)
     else:
       print("Question papers directory " + questionPapersDirectory + " found. Doing nothing.")
-    print("Copying gen_pdf.sh to " + questionPapersDirectory + " ...")
 
+    # Copy gen_pdf.sh
     if(not os.path.exists(questionPapersDirectory + "gen_pdf.sh")):
       print("Copying gen_pdf.sh to " + questionPapersDirectory + " ...")
       shutil.copyfile(self.applicationHome + "src/gen_pdf.sh", questionPapersDirectory + "gen_pdf.sh")
 
+    # Copy gen.py
     if(not os.path.exists(self.assessmentHome + "gen.py")):
       print("Copying gen.py to " + self.assessmentHome + " ...")
       shutil.copyfile(self.applicationHome + "src/gen.py", self.assessmentHome + "gen.py")
@@ -155,20 +160,6 @@ class Configuration:
       else:
         print("Item file " + itemFile + " found. Doing nothing.")
 
-    source_genAIsFile = self.applicationHome + "genAIs.py"
-    source_genQPsFile = self.applicationHome + "genQPs.py"
-    destination_genAIsFile = self.assessmentHome + "genAIs.py"
-    destination_genQPsFile = self.assessmentHome + "genQPs.py"
-
-    if(not os.path.exists(destination_genAIsFile)):
-      print(destination_genAIsFile + " not found. Copying ...")
-      shutil.copyfile(source_genAIsFile, destination_genAIsFile)
-
-    if(not os.path.exists(destination_genQPsFile)):
-      print(destination_genQPsFile + " not found. Copying ...")
-#      shutil.copyfile(source_genQPsFile, destination_genQPsFile)
-      self.gen_genQPs(destination_genQPsFile)
-
     configSrcFile = self.assessmentHome + "config.py"
     if(not os.path.exists(configSrcFile)):
       print("Configuration source file " + configSrcFile + " not found. Creating ...")
@@ -176,57 +167,6 @@ class Configuration:
         fout.write(str(self))
     else:
       print("Configuration source file " + configSrcFile + " found. Doing nothing.")
-
-  def gen_genAIs(self, fname):
-    text = "#!/usr/bin/python3" + "\n" +                                  \
-      "import random" + "\n" +                                            \
-      "import functools" + "\n" +                                         \
-      "import sys" + "\n" +                                               \
-      "sys.path.append(\"/home/sujit/IIITB/projects/evalobj/\")" + "\n" + \
-      "from src.genAIs import AIGenerator" + "\n" +                       \
-      "import config" + "\n\n" +                                          \
-      "if __name__ == \"__main__\":" + "\n" +                             \
-      "  itemNames = [\"ai\" + str(qnum) for qnum in range(1," +              \
-      str(len(self.items)) +                                              \
-      ")]" + "\n" +                                                       \
-      "  qpg = Q.QPGenerator(\"" +                                        \
-      self.courseName +                                                   \
-      "\", \"" +                                                          \
-      self.assessmentName +                                               \
-      "\", AIs, numOfQuestions=" +                                        \
-      str(self.QperQP) +                                                  \
-      ", QPperAI=" +                                                      \
-      str(self.QPperAI) +                                                 \
-      "  )" + "\n" +                                                      \
-      "  qpg.genQPs()" + "\n" +                                           \
-      "  print(qpg.AItoQP)" + "\n" +                                      \
-      "  qpg.writeAItoQP()" + "\n"
-    with open(fname, "w") as fout:
-      fout.write(text)
-
-  def gen_genQPs(self, fname):
-    text = "#!/usr/bin/python3\n" +                                       \
-      "sys.path.append(\"/home/sujit/IIITB/projects/evalobj/\")" + "\n" + \
-      "import src.qpgen as Q" + "\n" +                                    \
-      "import config" + "\n" +                                            \
-      "if __name__ == \"__main__\":" + "\n" +                             \
-      "  AIs = [\"ai\" + str(qnum) for qnum in range(1," +                \
-      str(len(self.items)) +                                              \
-      ")]" + "\n" +                                                       \
-      "  qpg = Q.QPGenerator(\"" +                                        \
-      self.courseName +                                                   \
-      "\", \"" +                                                          \
-      self.assessmentName +                                               \
-      "\", AIs, numOfQuestions=" +                                        \
-      str(self.QperQP) +                                                  \
-      ", QPperAI=" +                                                      \
-      str(self.QPperAI) +                                                 \
-      "  )" + "\n" +                                                      \
-      "  qpg.genQPs()" + "\n" +                                           \
-      "  print(qpg.AItoQP)" + "\n" +                                      \
-      "  qpg.writeAItoQP()" + "\n"
-    with open(fname, "w") as fout:
-      fout.write(text)
 
 if __name__ == "__main__":
   if(len(sys.argv) != 2):
