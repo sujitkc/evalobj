@@ -92,7 +92,8 @@ class Configuration:
 
   def generateProject(self):
     # Check the existence of the directories.
-    # Create directories: evaluation, submission, item-bank, assessment-instruments, question-papers
+    # Create directories: evaluation, submission, item-bank, assessment-
+    # instruments, question-papers
     # Create item stubs in item-bank.
     # Generate file config.py (to be imported by all other scripts)
     # Copy gen.py to evaluation, gen_pdfs.sh to question-papers
@@ -109,14 +110,17 @@ class Configuration:
 
     evaluationDirectory = self.assessmentHome + "/evaluation/"
     if(not os.path.exists(evaluationDirectory)):
-      print("Evaluation directory " + evaluationDirectory + " not found. Creating ...")
+      print("Evaluation directory " + evaluationDirectory + " not found." \
+      " Creating ...")
       os.mkdir(evaluationDirectory)
     else:
-      print("Evaluation directory " + evaluationDirectory + " found. Doing nothing.")
+      print("Evaluation directory " + evaluationDirectory + \
+            " found. Doing nothing.")
 
     if(not os.path.exists(evaluationDirectory + "evaluate.py")):
       print("Copying evaluate.py to " + evaluationDirectory + " ...")
-      shutil.copyfile(self.applicationHome + "src/evaluate.py", self.evaluationDirectory + "evaluate.py")
+      shutil.copyfile(self.applicationHome + "src/evaluate.py",
+        self.evaluationDirectory + "evaluate.py")
 
     itemBank = self.assessmentHome + "/item-bank/"
     if(not os.path.exists(itemBank)):
@@ -127,27 +131,33 @@ class Configuration:
 
     assessmentInstrumentDirectory = self.assessmentHome + "/assessment-instruments/"
     if(not os.path.exists(assessmentInstrumentDirectory)):
-      print("Assessment instrument directory " + assessmentInstrumentDirectory + " not found. Creating ...")
+      print("Assessment instrument directory " + assessmentInstrumentDirectory \
+        + " not found. Creating ...")
       os.mkdir(assessmentInstrumentDirectory)
     else:
-      print("Assessment instrument directory " + assessmentInstrumentDirectory + " found. Doing nothing.")
+      print("Assessment instrument directory " + assessmentInstrumentDirectory \
+        + " found. Doing nothing.")
 
     questionPapersDirectory = self.assessmentHome + "question-papers/"
     if(not os.path.exists(questionPapersDirectory)):
-      print("Question papers directory " + questionPapersDirectory + " not found. Creating ...")
+      print("Question papers directory " + questionPapersDirectory + \
+        " not found. Creating ...")
       os.mkdir(questionPapersDirectory)
     else:
-      print("Question papers directory " + questionPapersDirectory + " found. Doing nothing.")
+      print("Question papers directory " + questionPapersDirectory + \
+        " found. Doing nothing.")
 
     # Copy gen_pdf.sh
     if(not os.path.exists(questionPapersDirectory + "gen_pdf.sh")):
       print("Copying gen_pdf.sh to " + questionPapersDirectory + " ...")
-      shutil.copyfile(self.applicationHome + "src/gen_pdf.sh", questionPapersDirectory + "gen_pdf.sh")
+      shutil.copyfile(self.applicationHome + "src/gen_pdf.sh",
+        questionPapersDirectory + "gen_pdf.sh")
 
     # Copy gen.py
     if(not os.path.exists(self.assessmentHome + "gen.py")):
       print("Copying gen.py to " + self.assessmentHome + " ...")
-      shutil.copyfile(self.applicationHome + "src/gen.py", self.assessmentHome + "gen.py")
+      shutil.copyfile(self.applicationHome + "src/gen.py", self.assessmentHome + \
+        "gen.py")
 
     # generate item stubs
     for i in self.items:
@@ -156,21 +166,25 @@ class Configuration:
         print("Item file " + itemFile + " not found. Creating ...")
         with open(itemFile, "w") as fout:
           fout.write("\\question\n")
-          fout.write("\\label{q:" + self.courseCode + ":" + self.assessmentName + ":" + i.name + "}\n")
+          fout.write("\\label{q:" + self.courseCode + ":" + self.assessmentName \
+            + ":" + i.name + "}\n")
       else:
         print("Item file " + itemFile + " found. Doing nothing.")
 
     configSrcFile = self.assessmentHome + "config.py"
     if(not os.path.exists(configSrcFile)):
-      print("Configuration source file " + configSrcFile + " not found. Creating ...")
+      print("Configuration source file " + configSrcFile + \
+        " not found. Creating ...")
       with open(configSrcFile, "w") as fout:
         fout.write(str(self))
     else:
-      print("Configuration source file " + configSrcFile + " found. Doing nothing.")
+      print("Configuration source file " + configSrcFile + \
+        " found. Doing nothing.")
 
 if __name__ == "__main__":
   if(len(sys.argv) != 2):
-    print("Please provide the name of the project configuration file in command line.")
+    print("Please provide the name of the project configuration file in command", \
+      "line.")
     sys.exit(1)
   configFile = sys.argv[1]
   print(configFile)

@@ -26,6 +26,7 @@
 \usepackage{setspace}
 \usepackage{natbib}
 \usepackage{authblk}
+\usepackage{enumitem}
 
 \newcommand{\myheader}[1]{
 	{\color{darkblue}
@@ -169,11 +170,75 @@
 
 
 \chapter{User Manual}
+
+\section{Basic Concepts}
+\subsection{Quiz Type}
 This software supports two types of objective question quizzes:
 \begin{enumerate}
-\item \textbf{Simple quiz:} In this quiz, the students are supposed to answer all questions.
-\item \textbf{Jumbled quiz:} In this form of quiz, each student gets a different question paper to answer, which contains questions sampled out of a larger item bank.
+\item \textbf{Simple quiz:} In this quiz, the students are supposed to answer all questions. All students answer the same question paper.
+\item \textbf{Jumbled quiz:} In this form of quiz, each student gets a different question paper to answer, which contains questions sampled out of a larger item bank and jumbled.
 \end{enumerate}
+
+\subsection{Question Types}
+There are two types of questions that can be included in the question papers: multiple choice questions (MCQ) and match the following (MTF).
+An MCQ is a question with two or more possible options out of which one or more may be correct choices. For example:
+
+\begin{mdframed}
+Name two dynamically typed programming languages:
+
+\begin{enumerate}
+\item Java
+\item \label{i:py} \textbf{Python}
+\item Haskell
+\item \label{i:ru} \textbf{Ruby}
+\end{enumerate}
+\end{mdframed}
+
+In the above, options \ref{i:py} and \ref{i:ru} are correct answers.
+
+The second question type is match the following.
+
+\begin{mdframed}
+Match the following programming languages on the left column with properties on the right:
+
+\begin{tabular}{c @{} c}
+\begin{minipage}{0.4\textwidth}
+\begin{enumerate}
+\item Python
+\item Java
+\item C++
+\item OCaml
+\end{enumerate}
+\end{minipage}
+&
+\begin{minipage}{0.4\textwidth}
+\begin{enumerate}[label=\Alph*.]
+\item \label{i:st} Static typing
+\item \label{i:dt} Dynamic typing
+\item \label{i:ut} Untyped
+\item \label{i:it} Implicit typing
+\item \label{i:et} Explicit typing
+\item \label{i:func} Functional
+\item \label{i:oo} Object oriented
+\end{enumerate}
+\end{minipage}
+\end{tabular}
+\end{mdframed}
+
+In the above example, the matches are as follows
+\begin{enumerate}
+\item Python matches with \ref{i:dt}, \ref{i:it}, \ref{i:func} and \ref{i:oo}
+\item Java match with \ref{i:st}, \ref{i:et} and \ref{i:oo}
+\item C++ match with \ref{i:st}, \ref{i:et} and \ref{i:oo}
+\item OCaml match with \ref{i:st}, \ref{i:it}, \ref{i:func},  and \ref{i:oo}
+\end{enumerate}
+
+A few points to note here:
+\begin{itemize}
+\item The mapping can be many to many, even allowing some options on the either side to have no matches at all (e.g. \ref{i:ut}).
+\item There is no restriction on the number of options on either columns. For example, in the above example, we have 4 options on the LHS and 7 on the RHS.
+\end{itemize}
+
 
 \section{Simple Quiz}
 
@@ -187,6 +252,15 @@ This software supports two types of objective question quizzes:
 \node[draw=Black, fill=OliveGreen!50, align=center, right=of sresp](seval){Simple \\ Evaluator};
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of seval](res){Results};
 
+\node[draw=Red, dotted, thick, minimum height=4cm, fit = (qpgen) (qp)] (setup) {};
+\node[fill=Gray, above=0.1cm of setup.south](lsetup){Set up};
+
+\node[draw=Red, dotted, thick, minimum height=4cm, fit = (quiz) (sresp)] (exam) {};
+\node[fill=Gray, above=0.1cm of exam.south](lexam){Exam};
+
+\node[draw=Red, dotted, thick, minimum height=4cm, fit = (res) (seval)] (eval) {};
+\node[fill=Gray, above=0.1cm of eval.south](eval){Evaluation};
+
 \draw[-latex, thick] (qpgen) -- (qp);
 \draw[-latex, thick] (qp) -- (quiz);
 \draw[-latex, thick] (quiz) -- (sresp);
@@ -199,6 +273,12 @@ This software supports two types of objective question quizzes:
 \label{f:squiz}
 \end{figure}
 The question paper creation for a simple quiz is manual. All students solve an identical question paper. The evaluation step directly runs on the student responses using the \lstinline[style=pc]@SimpleEvaluator@ module.
+
+\subsection{Setup}
+Suppose you intend to conduct a simple quiz. As mentioned above, in a simple quiz, all students solve the same question paper. Such a quiz is ideal when there is small class and enough assurance that cheating is not a possibility. Of course, all questions are assumed to be either multiple choice questions (MCQ) or match the following questions (MTF).
+
+
+The assessment project can be setup conveniently using the setup utility. The setup utility automatically generates the skeletal infrastructure for conducting such a quiz.
 
 \section{Jumbled Quiz}
 \begin{figure}[H]
@@ -218,6 +298,15 @@ The question paper creation for a simple quiz is manual. All students solve an i
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of quiz](sresp){Student \\ Responses};
 \node[draw=Black, fill=OliveGreen!50, align=center, right=of sresp](jeval){Jumbled \\ Evaluator};
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of jeval](res){Results};
+
+\node[draw=Red, dotted, thick, minimum height=4.5cm, fit = (qpgen) (qp) (aiibi) (rnqp)] (setup) {};
+\node[fill=Gray, above right=0.1cm of setup.south west](lsetup){Set up};
+
+\node[draw=Red, dotted, thick, minimum height=3.5cm, fit = (quiz) (sresp)] (exam) {};
+\node[fill=Gray, above=0.1cm of exam.south](lexam){Exam};
+
+\node[draw=Red, dotted, thick, minimum height=3.5cm, fit = (res) (jeval)] (eval) {};
+\node[fill=Gray, above=0.1cm of eval.south](eval){Evaluation};
 
 \draw[-latex, thick] (ib) -- (qpgen);
 \draw[-, thick] (qpgen) -- (jn1);
