@@ -120,7 +120,7 @@ class Configuration:
     if(not os.path.exists(evaluationDirectory + "evaluate.py")):
       print("Copying evaluate.py to " + evaluationDirectory + " ...")
       shutil.copyfile(self.applicationHome + "src/evaluate.py",
-        self.evaluationDirectory + "evaluate.py")
+        evaluationDirectory + "evaluate.py")
 
     itemBank = self.assessmentHome + "/item-bank/"
     if(not os.path.exists(itemBank)):
@@ -168,6 +168,7 @@ class Configuration:
           fout.write("\\question\n")
           fout.write("\\label{q:" + self.courseCode + ":" + self.assessmentName \
             + ":" + i.name + "}\n")
+          fout.write(i.latexTemplate)
       else:
         print("Item file " + itemFile + " found. Doing nothing.")
 
