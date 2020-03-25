@@ -11,7 +11,11 @@ import src.genQPs as Q
 
 if __name__ == "__main__":
   itemNames = [ i.name for i in config.items ]
-  aig = AIGenerator(config.applicationHome, items=itemNames, numOfQuestions=config.QperQP, numOfAIs=config.numOfAIs)
+  aig = AIGenerator(
+          config.applicationHome,
+          items=itemNames,
+          numOfQuestions=config.QperQP,
+          numOfAIs=config.numOfAIs)
   aig.genAIs()
   aig.writeAItoIBI()
 

@@ -29,8 +29,9 @@ class AIGenerator:
     random.shuffle(allItems)
     items = allItems[:self.numOfQuestions]
     for item in items:
-      with open(self.src_dir + item + ".tex", "r") as fin:
-        question = "\n" + fin.read()
+#      with open(self.src_dir + item + ".tex", "r") as fin:
+#        question = "\n" + fin.read()
+      question = "\n" + "\\input{" + self.src_dir + item + ".tex}" + "\n"
       fout.write(question)
     fout.write(foot)
     return items
