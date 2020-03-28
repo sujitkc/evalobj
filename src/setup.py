@@ -29,6 +29,10 @@ class Configuration:
       self.assessmentName = data["assessment name"]
     else:
       self.assessmentName = ""
+    if("assessment type" in data):
+      self.assessmenType = data["assessment type"]
+    else:
+      self.assessmentType = "simple" #default type is simple
     if("assessment home" in data):
       self.assessmentHome  = data["assessment home"]
     else:
@@ -41,18 +45,21 @@ class Configuration:
       self.items = self.readItems(data["items"])
     else:
       self.items = []
-    if("number of assessment instruments" in data):
-      self.numOfAIs = int(data["number of assessment instruments"])
-    else:
-      self.QperQP = len(self.items)
-    if("number of questions per question paper" in data):
-      self.QperQP = int(data["number of questions per question paper"])
-    else:
-      self.QperQP = len(self.items)
-    if("number of question papers per assessment instrument" in data):
-      self.QPperAI = int(data["number of question papers per assessment instrument"])
-    else:
-      self.QPperAI = 1
+
+    # Configuration specific only to jumbled quizzes.
+    if(self.assessmentType == "jumbled"):
+      if("number of assessment instruments" in data):
+        self.numOfAIs = int(data["number of assessment instruments"])
+      else:
+        self.QperQP = len(self.items)
+      if("number of questions per question paper" in data):
+        self.QperQP = int(data["number of questions per question paper"])
+      else:
+        self.QperQP = len(self.items)
+      if("number of question papers per assessment instrument" in data):
+        self.QPperAI = int(data["number of question papers per assessment instrument"])
+      else:
+        self.QPperAI = 1
 
   def readItems(self, itemsData):
     def readItem(itemData):
@@ -85,9 +92,10 @@ class Configuration:
     s += "rollNumberFile = \"" + self.rollNumberFile + "\"\n"
     stritems = functools.reduce(lambda x, y: x + y + ", ", [str(i) for i in self.items], "")
     s += "items = [" + stritems + "]\n"
-    s += "numOfAIs = " + str(self.numOfAIs) + "\n"
-    s += "QPperAI = " + str(self.QPperAI) + "\n"
-    s += "QperQP = " + str(self.QperQP) + "\n"
+    if(self.assessmentType == "jumbled"):
+      s += "numOfAIs = " + str(self.numOfAIs) + "\n"
+      s += "QPperAI = " + str(self.QPperAI) + "\n"
+      s += "QperQP = " + str(self.QperQP) + "\n"
     return s
 
   def generateProject(self):
@@ -129,15 +137,6 @@ class Configuration:
     else:
       print("Item bank " + itemBank + " found. Doing nothing.")
 
-    assessmentInstrumentDirectory = self.assessmentHome + "/assessment-instruments/"
-    if(not os.path.exists(assessmentInstrumentDirectory)):
-      print("Assessment instrument directory " + assessmentInstrumentDirectory \
-        + " not found. Creating ...")
-      os.mkdir(assessmentInstrumentDirectory)
-    else:
-      print("Assessment instrument directory " + assessmentInstrumentDirectory \
-        + " found. Doing nothing.")
-
     questionPapersDirectory = self.assessmentHome + "question-papers/"
     if(not os.path.exists(questionPapersDirectory)):
       print("Question papers directory " + questionPapersDirectory + \
@@ -152,12 +151,6 @@ class Configuration:
       print("Copying gen_pdf.sh to " + questionPapersDirectory + " ...")
       shutil.copyfile(self.applicationHome + "src/gen_pdf.sh",
         questionPapersDirectory + "gen_pdf.sh")
-
-    # Copy gen.py
-    if(not os.path.exists(self.assessmentHome + "gen.py")):
-      print("Copying gen.py to " + self.assessmentHome + " ...")
-      shutil.copyfile(self.applicationHome + "src/gen.py", self.assessmentHome + \
-        "gen.py")
 
     # generate item stubs
     for i in self.items:
@@ -181,6 +174,27 @@ class Configuration:
     else:
       print("Configuration source file " + configSrcFile + \
         " found. Doing nothing.")
+
+    # setup specific only to jumbled quizzes.
+    if(self.assessmentType == "jumbled"):
+      assessmentInstrumentDirectory = self.assessmentHome + "/assessment-instruments/"
+      if(not os.path.exists(assessmentInstrumentDirectory)):
+        print("Assessment instrument directory " + assessmentInstrumentDirectory \
+          + " not found. Creating ...")
+        os.mkdir(assessmentInstrumentDirectory)
+      else:
+        print("Assessment instrument directory " + assessmentInstrumentDirectory \
+          + " found. Doing nothing.")
+
+      # Copy gen.py
+    if(not os.path.exists(self.assessmentHome + "gen.py")):
+      print("Copying gen.py to " + self.assessmentHome + " ...")
+      if(self.assessmentType == "simple"):
+        shutil.copyfile(self.applicationHome + "src/gen_simple.py", self.assessmentHome + \
+          "gen.py")
+      if(self.assessmentType == "jumbled"):
+        shutil.copyfile(self.applicationHome + "src/gen_jumbled.py", self.assessmentHome + \
+          "gen.py")
 
 if __name__ == "__main__":
   if(len(sys.argv) != 2):

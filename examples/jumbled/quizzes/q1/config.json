@@ -2,6 +2,7 @@
   "course name"       : "Software Design",
   "course code"       : "SE101",
   "assessment name"   : "J1",
+  "assessment type"   : "jumbled",
   "roll number file"  : "/home/sujit/IIITB/projects/evalobj/test/j1/class.csv",
   "assessment home"   : "/home/sujit/IIITB/projects/evalobj/test/j1/quizzes/q1/",
   "number of assessment instruments" : "3",
