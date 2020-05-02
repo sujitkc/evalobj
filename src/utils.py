@@ -3,12 +3,16 @@ import csv
 
 class CSVReader:
 
+  # Procedure to read roll numbers from CSV file
   @staticmethod
-  def readRNtoQP(fname):
-    return list(csv.reader(open(fname, 'r')))
+  def readRollNumbers(fname):
+    reader = csv.reader(open(fname, 'r'))
+    rows = list(reader)
+    rows.pop(0)
+    return [row[0] for row in rows]
 
   @staticmethod
-  def readAItoQP(fname):
+  def readRNtoAI(fname):
     return list(csv.reader(open(fname, 'r')))
 
   @staticmethod

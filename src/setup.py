@@ -6,6 +6,7 @@ import os
 import shutil
 import functools
 
+import utils
 import qtypes
 
 class Configuration:
@@ -30,7 +31,7 @@ class Configuration:
     else:
       self.assessmentName = ""
     if("assessment type" in data):
-      self.assessmenType = data["assessment type"]
+      self.assessmentType = data["assessment type"]
     else:
       self.assessmentType = "simple" #default type is simple
     if("assessment home" in data):
@@ -48,18 +49,12 @@ class Configuration:
 
     # Configuration specific only to jumbled quizzes.
     if(self.assessmentType == "jumbled"):
-      if("number of assessment instruments" in data):
-        self.numOfAIs = int(data["number of assessment instruments"])
+      rollNumbers = utils.CSVReader.readRollNumbers(self.rollNumberFile)
+      self.numOfAIs = len(rollNumbers)
+      if("number of items per assessment instrument" in data):
+        self.itemsPerAI = int(data["number of items per assessment instrument"])
       else:
-        self.QperQP = len(self.items)
-      if("number of questions per question paper" in data):
-        self.QperQP = int(data["number of questions per question paper"])
-      else:
-        self.QperQP = len(self.items)
-      if("number of question papers per assessment instrument" in data):
-        self.QPperAI = int(data["number of question papers per assessment instrument"])
-      else:
-        self.QPperAI = 1
+        self.itemsPerAI = len(self.items)
 
   def readItems(self, itemsData):
     def readItem(itemData):
@@ -94,8 +89,7 @@ class Configuration:
     s += "items = [" + stritems + "]\n"
     if(self.assessmentType == "jumbled"):
       s += "numOfAIs = " + str(self.numOfAIs) + "\n"
-      s += "QPperAI = " + str(self.QPperAI) + "\n"
-      s += "QperQP = " + str(self.QperQP) + "\n"
+      s += "itemsPerAI = " + str(self.itemsPerAI) + "\n"
     return s
 
   def generateProject(self):
@@ -127,8 +121,12 @@ class Configuration:
 
     if(not os.path.exists(evaluationDirectory + "evaluate.py")):
       print("Copying evaluate.py to " + evaluationDirectory + " ...")
-      shutil.copyfile(self.applicationHome + "src/evaluate.py",
-        evaluationDirectory + "evaluate.py")
+      if(self.assessmentType == "simple"):
+        shutil.copyfile(self.applicationHome + "src/evaluate_simple.py",
+          evaluationDirectory + "evaluate.py")
+      elif(self.assessmentType == "jumbled"):
+        shutil.copyfile(self.applicationHome + "src/evaluate_jumbled.py",
+          evaluationDirectory + "evaluate.py")
 
     itemBank = self.assessmentHome + "/item-bank/"
     if(not os.path.exists(itemBank)):

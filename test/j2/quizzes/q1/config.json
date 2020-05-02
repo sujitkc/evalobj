@@ -1,0 +1,56 @@
+{
+  "course name"       : "Software Design",
+  "course code"       : "SE101",
+  "assessment name"   : "J2",
+  "assessment type"   : "jumbled",
+  "roll number file"  : "/home/sujit/IIITB/projects/evalobj/test/j2/class.csv",
+  "assessment home"   : "/home/sujit/IIITB/projects/evalobj/test/j2/quizzes/q1/",
+  "number of items per assessment instrument" : "3",
+  "items"             : [
+    {
+      "name" : "item1",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item2",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item3",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item4",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item5",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    }
+  ]
+}
