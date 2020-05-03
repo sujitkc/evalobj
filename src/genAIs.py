@@ -68,8 +68,8 @@ class AIGenerator:
     for item in items:
       item = "\n" + "\\input{../" + self.src_dir + item + ".tex}" + "\n"
       stritems += item
-    ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable
-           + self.h3 + stritems + self.footer
+    ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable + \
+           self.h3 + stritems + self.footer
     fout.write(ai)
     return items
 

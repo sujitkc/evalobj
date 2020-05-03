@@ -95,10 +95,10 @@ class Configuration:
   def generateProject(self):
     # Check the existence of the directories.
     # Create directories: evaluation, submission, item-bank, assessment-
-    # instruments, question-papers
+    # instruments, 
     # Create item stubs in item-bank.
     # Generate file config.py (to be imported by all other scripts)
-    # Copy gen.py to evaluation, gen_pdfs.sh to question-papers
+    # Copy gen.py to evaluation, gen_pdfs.sh to assessment-instruments
 
     if(not os.path.exists(self.assessmentHome)):
       print("Assessment home directory " + self.assessmentHome + " not found.")
@@ -134,21 +134,6 @@ class Configuration:
       os.mkdir(itemBank)
     else:
       print("Item bank " + itemBank + " found. Doing nothing.")
-
-    questionPapersDirectory = self.assessmentHome + "question-papers/"
-    if(not os.path.exists(questionPapersDirectory)):
-      print("Question papers directory " + questionPapersDirectory + \
-        " not found. Creating ...")
-      os.mkdir(questionPapersDirectory)
-    else:
-      print("Question papers directory " + questionPapersDirectory + \
-        " found. Doing nothing.")
-
-    # Copy gen_pdf.sh
-    if(not os.path.exists(questionPapersDirectory + "gen_pdf.sh")):
-      print("Copying gen_pdf.sh to " + questionPapersDirectory + " ...")
-      shutil.copyfile(self.applicationHome + "src/gen_pdf.sh",
-        questionPapersDirectory + "gen_pdf.sh")
 
     # generate item stubs
     for i in self.items:

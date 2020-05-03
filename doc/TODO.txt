@@ -1,11 +1,21 @@
-- evaluate_theory.py
-- Modify setup.py to deal with both types of quizzes: simple and jumbled. Right
- now, it just does it for jumbled quizzes. A good approach seems to be to implement simple quizzes as special case of jumbled quiz, with
+- 03 May 2020. Modify setup.py to deal with both types of quizzes: simple and jumbled.
+  Right now, it just does it for jumbled quizzes. A good approach seems to be to
+  implement simple quizzes as special case of jumbled quiz, with
   "number of assessment instruments" : "1",
   "number of questions per question paper" : number of items in the item bank,
   "number of question papers per assessment instrument" : "1", 
+  Status: OPEN
 
-- src/evaluate_simple.py
-- Answer editor - GUI application for easy editing of answers both for the evaluator and for the student.
-- Configuration editor - GUI application for easy editing of assessment project configuration
+- 03 May 2020. Replacing 3-step process in jumbled quiz with 2-step process.
+  The change will simplify the process (and the code). In this, there will be
+  no more 'questions', only 'assessment instruments'.
+  Status: CLOSED
+
+- 03 May 2020. src/evaluate_simple.py
+- Answer editor - GUI application for easy editing of answers both for the
+  evaluator and for the student.
+- Configuration editor - GUI application for easy editing of assessment project
+  configuration
 - Testing data with 5 items in the item bank.
+  Status: CLOSED
+

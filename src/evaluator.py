@@ -307,7 +307,6 @@ class JumbledEvaluator(Evaluator):
     Evaluator.__init__(self, qtypes, rollNumberFile)
 
   def rearrange(self, ai, iresponses):
-    print("ai =", ai)
     itemBankLength = len(self.qtypes)
     oresponses = [[0]] * itemBankLength
     ai2ibi = []
@@ -320,8 +319,6 @@ class JumbledEvaluator(Evaluator):
     ai2ibi = [i.split('item')[-1] for i in ai2ibi]
     for i in range(len(ai2ibi)):
       oresponses[int(ai2ibi[i]) - 1] = iresponses.answers[i]
-    print("oresponses = ")
-    print(oresponses)
     return AnswerSheet(oresponses)
 
   def getAIfromRN(self, rn):

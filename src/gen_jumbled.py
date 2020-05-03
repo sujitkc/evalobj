@@ -2,6 +2,7 @@
 import random
 import functools
 import sys
+import shutil
 
 import config
 sys.path.append(config.applicationHome)
@@ -22,17 +23,5 @@ if __name__ == "__main__":
           numOfAIs        = len(rollNumbers))
   aig.genAIs()
   aig.writeAItoIBI()
-
-'''
-  AIs = ["ai" + str(qnum) for qnum in range(1, config.numOfAIs + 1)]
-  qpg = Q.QPGenerator(
-          applicationHome = config.applicationHome,
-          course          = config.courseCode, 
-          assessment      = config.assessmentName,
-          AIs             = AIs,
-          numOfQuestions  = config.QperQP,
-          QPperAI         = config.QPperAI  )
-  qpg.genQPs()
-  print(qpg.AItoQP)
-  qpg.writeAItoQP()
-'''
+  shutil.copyfile(config.applicationHome + "src/gen_pdf.sh",
+     config.assessmentHome + "assessment-instruments/gen_pdf.sh")
