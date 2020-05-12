@@ -23,5 +23,5 @@ if __name__ == "__main__":
           numOfAIs        = len(rollNumbers))
   aig.genAIs()
   aig.writeAItoIBI()
-  shutil.copyfile(config.applicationHome + "src/gen_pdf.sh",
+  shutil.copyfile(config.applicationHome + "src/boilerplate/gen_pdf.sh",
      config.assessmentHome + "assessment-instruments/gen_pdf.sh")

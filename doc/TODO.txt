@@ -1,3 +1,24 @@
+- 07 May 2020. Move the files which get copied verbatim into the asessment
+  directory (e.g. gen_jumbled.py, gen_simple.py, gen_pdf.sh, evaluate.py)
+  from the application directory into a separate subdirectory,
+  say 'boilerplate'. This will clean up the source directory by retaining
+  only code and seggregate the same from code/script that gets copied into
+  the assessment directory.
+  Make corresponding changes to the source code.
+  Status: OPEN
+  
+- 05 May 2020. For jumbled quiz, get rid of RNtoAI mapping too. Directly generate 
+  one assessment instrument for each roll number. Possibly change the AItoIBI mapping
+  to RNtoIBI mapping.
+  Status: OPEN
+
+- 05 May 2020. Create a new question time: Grouped. This allows generation of jumbled
+  quiz among items grouped into one.
+  Status: OPEN
+
+- 05 May 2020. Create a new question type: Single Word. 
+  Status: OPEN
+
 - 03 May 2020. Modify setup.py to deal with both types of quizzes: simple and jumbled.
   Right now, it just does it for jumbled quizzes. A good approach seems to be to
   implement simple quizzes as special case of jumbled quiz, with

@@ -98,7 +98,6 @@ class Configuration:
     # instruments, 
     # Create item stubs in item-bank.
     # Generate file config.py (to be imported by all other scripts)
-    # Copy gen.py to evaluation, gen_pdfs.sh to assessment-instruments
 
     if(not os.path.exists(self.assessmentHome)):
       print("Assessment home directory " + self.assessmentHome + " not found.")
@@ -122,10 +121,10 @@ class Configuration:
     if(not os.path.exists(evaluationDirectory + "evaluate.py")):
       print("Copying evaluate.py to " + evaluationDirectory + " ...")
       if(self.assessmentType == "simple"):
-        shutil.copyfile(self.applicationHome + "src/evaluate_simple.py",
+        shutil.copyfile(self.applicationHome + "src/boilerplate/evaluate_simple.py",
           evaluationDirectory + "evaluate.py")
       elif(self.assessmentType == "jumbled"):
-        shutil.copyfile(self.applicationHome + "src/evaluate_jumbled.py",
+        shutil.copyfile(self.applicationHome + "src/boilerplate/evaluate_jumbled.py",
           evaluationDirectory + "evaluate.py")
 
     itemBank = self.assessmentHome + "/item-bank/"
@@ -173,10 +172,10 @@ class Configuration:
     if(not os.path.exists(self.assessmentHome + "gen.py")):
       print("Copying gen.py to " + self.assessmentHome + " ...")
       if(self.assessmentType == "simple"):
-        shutil.copyfile(self.applicationHome + "src/gen_simple.py", self.assessmentHome + \
+        shutil.copyfile(self.applicationHome + "src/boilerplate/gen_simple.py", self.assessmentHome + \
           "gen.py")
       if(self.assessmentType == "jumbled"):
-        shutil.copyfile(self.applicationHome + "src/gen_jumbled.py", self.assessmentHome + \
+        shutil.copyfile(self.applicationHome + "src/boilerplate/gen_jumbled.py", self.assessmentHome + \
           "gen.py")
 
 if __name__ == "__main__":
