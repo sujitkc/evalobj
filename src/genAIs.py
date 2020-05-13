@@ -10,7 +10,7 @@ class AIGenerator:
       assessmentName,
       items,
       numOfItems,
-      numOfAIs,
+      rollNumbers,
       s = "item-bank/",
       d = "assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
@@ -21,20 +21,21 @@ class AIGenerator:
     self.assessmentName  = assessmentName
     self.items           = items
     self.numOfItems      = numOfItems
-    self.numOfAIs        = numOfAIs
+    self.rollNumbers     = rollNumbers
+    self.numOfAIs        = len(rollNumbers)
     self.src_dir         = s
     self.dest_dir        = d
     self.aitoibi_file    = aitoibi_file
 
-    with open(self.applicationHome + "src/h1.tex", "r") as fin:
+    with open(self.applicationHome + "src/tex/h1.tex", "r") as fin:
       self.h1 = fin.read()
-    with open(self.applicationHome + "src/h1.1.tex", "r") as fin:
+    with open(self.applicationHome + "src/tex/h1.1.tex", "r") as fin:
       self.h1_1 = fin.read()
-    with open(self.applicationHome + "src/h2.tex", "r") as fin:
+    with open(self.applicationHome + "src/tex/h2.tex", "r") as fin:
       self.h2 = fin.read()
-    with open(self.applicationHome + "src/h3.tex", "r") as fin:
+    with open(self.applicationHome + "src/tex/h3.tex", "r") as fin:
       self.h3 = fin.read()
-    with open(self.applicationHome + "src/b2.tex", "r") as fin:
+    with open(self.applicationHome + "src/tex/b2.tex", "r") as fin:
       self.footer = fin.read()
     self.responseTable = self.getResponseTable()
 
@@ -76,10 +77,9 @@ class AIGenerator:
   # Generate all assessment instruments.
   def genAIs(self):
     self.AItoIBI = {}
-    for i in range(1, self.numOfAIs + 1):
-      aiCode = "ai" + str(i)
-      with open(self.dest_dir + aiCode + ".tex", "w") as fout:
-        self.AItoIBI[aiCode] = self.genAI(aiCode, fout)
+    for rn in self.rollNumbers:
+      with open(self.dest_dir + rn + ".tex", "w") as fout:
+        self.AItoIBI[rn] = self.genAI(rn, fout)
 
   def writeAItoIBI(self):
     with open(self.aitoibi_file, "w") as fout:

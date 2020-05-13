@@ -11,9 +11,9 @@ class CSVReader:
     rows.pop(0)
     return [row[0] for row in rows]
 
-  @staticmethod
-  def readRNtoAI(fname):
-    return list(csv.reader(open(fname, 'r')))
+#  @staticmethod
+#  def readRNtoAI(fname):
+#    return list(csv.reader(open(fname, 'r')))
 
   @staticmethod
   def readAItoIBIFile(fname):

@@ -1,18 +1,4 @@
-- 07 May 2020. Move the files which get copied verbatim into the asessment
-  directory (e.g. gen_jumbled.py, gen_simple.py, gen_pdf.sh, evaluate.py)
-  from the application directory into a separate subdirectory,
-  say 'boilerplate'. This will clean up the source directory by retaining
-  only code and seggregate the same from code/script that gets copied into
-  the assessment directory.
-  Make corresponding changes to the source code.
-  Status: DONE (TESTING PENDING)
-  
-- 05 May 2020. For jumbled quiz, get rid of RNtoAI mapping too. Directly generate 
-  one assessment instrument for each roll number. Possibly change the AItoIBI mapping
-  to RNtoIBI mapping.
-  Status: OPEN
-
-- 05 May 2020. Create a new question time: Grouped. This allows generation of jumbled
+- 05 May 2020. Create a new question type: Grouped. This allows generation of jumbled
   quiz among items grouped into one.
   Status: OPEN
 
@@ -26,6 +12,20 @@
   "number of questions per question paper" : number of items in the item bank,
   "number of question papers per assessment instrument" : "1", 
   Status: OPEN
+
+- 07 May 2020. Move the files which get copied verbatim into the asessment
+  directory (e.g. gen_jumbled.py, gen_simple.py, gen_pdf.sh, evaluate.py)
+  from the application directory into a separate subdirectory,
+  say 'boilerplate'. This will clean up the source directory by retaining
+  only code and seggregate the same from code/script that gets copied into
+  the assessment directory.
+  Make corresponding changes to the source code.
+  Status: DONE
+  
+- 05 May 2020. For jumbled quiz, get rid of RNtoAI mapping too. Directly generate 
+  one assessment instrument for each roll number. Possibly change the AItoIBI mapping
+  to RNtoIBI mapping.
+  Status: DONE
 
 - 03 May 2020. Replacing 3-step process in jumbled quiz with 2-step process.
   The change will simplify the process (and the code). In this, there will be

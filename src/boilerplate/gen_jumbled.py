@@ -20,7 +20,7 @@ if __name__ == "__main__":
           assessmentName  = config.assessmentName,
           items           = itemNames,
           numOfItems      = config.itemsPerAI,
-          numOfAIs        = len(rollNumbers))
+          rollNumbers     = rollNumbers)
   aig.genAIs()
   aig.writeAItoIBI()
   shutil.copyfile(config.applicationHome + "src/boilerplate/gen_pdf.sh",

@@ -300,9 +300,7 @@ class JumbledEvaluator(Evaluator):
       self,
       qtypes,
       rollNumberFile,
-      RNtoAIFile="../RNtoAI.csv",
       AItoIBIFile="../AItoIBI.csv"):
-    self.RNtoAI = utils.CSVReader.readRNtoAI(RNtoAIFile)
     self.AItoIBI = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, rollNumberFile)
 
@@ -321,22 +319,13 @@ class JumbledEvaluator(Evaluator):
       oresponses[int(ai2ibi[i]) - 1] = iresponses.answers[i]
     return AnswerSheet(oresponses)
 
-  def getAIfromRN(self, rn):
-    try:
-      for rn_ai_map in self.RNtoAI:
-        if rn in rn_ai_map:
-          return rn_ai_map[1]
-    except MappingNotFoundError as e:
-      raise
-
   # This Answer reader reads the jumbled answers from the submitted response
   # from the roll number, and rearranges it by
   # extracting the assessment instrument corresponding to the given 
-  # roll number (from RNtoAI)
+  # roll number (which is nothing but the roll number itself)
   # extracting the item to item bank item for each item and rearranging the
   # answer sheet as per that.
   # This answer sheet is returned.
   def getAnswerSheet(self, ansfile, rollNumber):
     jumbledResponses = Evaluator.getAnswerSheet(self, ansfile, rollNumber)
-    ai = self.getAIfromRN(rollNumber)
-    return self.rearrange(ai, jumbledResponses)
+    return self.rearrange(rollNumber, jumbledResponses)
