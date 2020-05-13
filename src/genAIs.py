@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import os
 import random
 import functools
 
@@ -11,7 +12,7 @@ class AIGenerator:
       items,
       numOfItems,
       rollNumbers,
-      s = "item-bank/",
+      s = "../item-bank/",
       d = "assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
   ):
@@ -67,19 +68,27 @@ class AIGenerator:
     items = allItems[:self.numOfItems]
     stritems = ""
     for item in items:
-      item = "\n" + "\\input{../" + self.src_dir + item + ".tex}" + "\n"
+      itemFileName = self.src_dir + "/" + item + ".tex"
+      item = "\n" + "\\input{" + itemFileName + "}" + "\n"
       stritems += item
     ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable + \
            self.h3 + stritems + self.footer
     fout.write(ai)
+
+
     return items
 
   # Generate all assessment instruments.
   def genAIs(self):
     self.AItoIBI = {}
     for rn in self.rollNumbers:
-      with open(self.dest_dir + rn + ".tex", "w") as fout:
+      texFile = self.dest_dir + rn + ".tex"
+      with open(texFile, "w") as fout:
         self.AItoIBI[rn] = self.genAI(rn, fout)
+      packageDirectory = "packages/" + rn
+      if(not os.path.exists(packageDirectory)):
+        os.mkdir(packageDirectory)
+      os.system("pdflatex -output-directory=" + packageDirectory + " " + texFile)
 
   def writeAItoIBI(self):
     with open(self.aitoibi_file, "w") as fout:
