@@ -139,9 +139,10 @@ class AnswerReader(Reader):
   def readAnswers(self, fileName):
     return AnswerSheet(self.__readContents__(fileName))
 
-# Exception class to deal with the situation when the submission doesn't match in length
-# with the expected. It may happen when:
-# - when the number of items in the output is different from that in the expected.
+# Exception class to deal with the situation when the submission doesn't match
+# in length with the expected. It may happen when:
+# - when the number of items in the output is different from that in the
+# expected.
 # - when the number of choices in the individual item is different.
 # - ... or in other unforeseen situations of similar type.
 class IncompatibleLengthError(Exception):
@@ -150,7 +151,8 @@ class IncompatibleLengthError(Exception):
     self.answer   = a
 
   def __str__(self):
-    return "IncompatibleLengthError(expected = " + str(self.expected) + ", answer = " + str(self.answer) + ")"
+    return "IncompatibleLengthError(expected = " + str(self.expected) + \
+             ", answer = " + str(self.answer) + ")"
 
 class FileNotExistsError(Exception):
   def __init__(self, filename):
@@ -188,8 +190,8 @@ class MCQuestion(Question):
     return choices
 
   # Given an expected answer and output answer, compare choice by choice.
-  # The score is out of 1. It is the fraction of choices that match to the total number of
-  # choices.
+  # The score is out of 1. It is the fraction of choices that match to the
+  # total number of choices.
   def score(self, answer):
     if(len(self.expectedChoices) != len(answer)):
       raise IncompatibleLengthError(len(self.expectedChoices), len(answer))
@@ -256,7 +258,10 @@ class Score:
     return s
 
 class Evaluator:
-  def __init__(self, qtypes, rollNumberFile, submissions_dir = "../submissions/"):
+  def __init__(self,
+      qtypes,
+      rollNumberFile,
+      submissions_dir = "../submissions/"):
     self.qtypes = qtypes
     self.rollNumberFile = rollNumberFile
     self.submissions_dir = submissions_dir

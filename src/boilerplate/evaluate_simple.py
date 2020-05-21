@@ -10,7 +10,7 @@ sys.path.append(config.applicationHome)
 import src.evaluator as E
 
 if __name__ == "__main__":
-  evaluator = E.JumbledEvaluator(config.items, config.rollNumberFile)
+  evaluator = E.Evaluator(config.items, config.rollNumberFile)
   results = evaluator.evaluate()
   for rollNumber in results:
     if(type(results[rollNumber]) == E.Score):

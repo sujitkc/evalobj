@@ -157,16 +157,23 @@ class Configuration:
       print("Configuration source file " + configSrcFile + \
         " found. Doing nothing.")
 
-    # setup specific only to jumbled quizzes.
-    if(self.assessmentType == "jumbled"):
-      assessmentInstrumentDirectory = self.assessmentHome + "/assessment-instruments/"
-      if(not os.path.exists(assessmentInstrumentDirectory)):
-        print("Assessment instrument directory " + assessmentInstrumentDirectory \
-          + " not found. Creating ...")
-        os.mkdir(assessmentInstrumentDirectory)
-      else:
-        print("Assessment instrument directory " + assessmentInstrumentDirectory \
-          + " found. Doing nothing.")
+    assessmentInstrumentDirectory = self.assessmentHome + "/assessment-instruments/"
+    if(not os.path.exists(assessmentInstrumentDirectory)):
+      print("Assessment instrument directory " + assessmentInstrumentDirectory \
+        + " not found. Creating ...")
+      os.mkdir(assessmentInstrumentDirectory)
+    else:
+      print("Assessment instrument directory " + assessmentInstrumentDirectory \
+        + " found. Doing nothing.")
+
+    packagesDirectory = self.assessmentHome + "/packages/"
+    if(not os.path.exists(packagesDirectory)):
+      print("Packages directory " + packagesDirectory \
+        + " not found. Creating ...")
+      os.mkdir(packagesDirectory)
+    else:
+      print("Packages directory " + packagesDirectory \
+        + " found. Doing nothing.")
 
       # Copy gen.py
     if(not os.path.exists(self.assessmentHome + "gen.py")):

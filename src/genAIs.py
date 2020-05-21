@@ -12,8 +12,9 @@ class AIGenerator:
       items,
       numOfItems,
       rollNumbers,
-      s = "../item-bank/",
-      d = "assessment-instruments/",
+      numOfAIs = -1,
+      itemBankDir = "../item-bank/",
+      AIDir = "assessment-instruments/",
       aitoibi_file = "AItoIBI.csv"
   ):
     self.applicationHome = applicationHome
@@ -23,9 +24,12 @@ class AIGenerator:
     self.items           = items
     self.numOfItems      = numOfItems
     self.rollNumbers     = rollNumbers
-    self.numOfAIs        = len(rollNumbers)
-    self.src_dir         = s
-    self.dest_dir        = d
+    if(numOfAIs == -1):
+      self.numOfAIs      = len(rollNumbers)
+    else:
+      self.numOfAIs      = numOfAIs
+    self.itemBankDir     = itemBankDir
+    self.AIDir           = AIDir
     self.aitoibi_file    = aitoibi_file
 
     with open(self.applicationHome + "src/tex/h1.tex", "r") as fin:
@@ -64,31 +68,32 @@ class AIGenerator:
     title = "\\title{" + self.courseName + "\\\\" +  self.assessmentName + "}\n"
 
     allItems = self.items[:]
-    random.shuffle(allItems)
+    self.shuffle(allItems)
     items = allItems[:self.numOfItems]
     stritems = ""
     for item in items:
-      itemFileName = self.src_dir + "/" + item + ".tex"
+      itemFileName = self.itemBankDir + "/" + item + ".tex"
       item = "\n" + "\\input{" + itemFileName + "}" + "\n"
       stritems += item
     ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable + \
            self.h3 + stritems + self.footer
     fout.write(ai)
 
-
     return items
 
   # Generate all assessment instruments.
   def genAIs(self):
     self.AItoIBI = {}
-    for rn in self.rollNumbers:
-      texFile = self.dest_dir + rn + ".tex"
+    aiCodes = self.generateAICodes()
+    for aiCode in aiCodes:
+      texFile = self.AIDir + aiCode + ".tex"
       with open(texFile, "w") as fout:
-        self.AItoIBI[rn] = self.genAI(rn, fout)
-      packageDirectory = "packages/" + rn
+        self.AItoIBI[aiCode] = self.genAI(aiCode, fout)
+      packageDirectory = "packages/" + aiCode
       if(not os.path.exists(packageDirectory)):
         os.mkdir(packageDirectory)
-      os.system("pdflatex -output-directory=" + packageDirectory + " " + texFile)
+      os.system("pdflatex -output-directory=" +
+                  packageDirectory + " " + texFile)
 
   def writeAItoIBI(self):
     with open(self.aitoibi_file, "w") as fout:
@@ -97,3 +102,66 @@ class AIGenerator:
                 lambda x, y: x + "," + y,
                 self.AItoIBI[ai][1:], self.AItoIBI[ai][0])
         fout.write(row + "\n")
+
+class SimpleAIGenerator(AIGenerator):
+
+  def __init__(self,
+      applicationHome,
+      courseName,
+      courseCode,
+      assessmentName,
+      items,
+      rollNumbers,
+      itemBankDir,
+      AIDir
+  ):
+    AIGenerator.__init__(self,
+      applicationHome = applicationHome,
+      courseName      = courseName,
+      courseCode      = courseCode,
+      assessmentName  = assessmentName,
+      items           = items,
+      numOfItems      = len(items),
+      numOfAIs        = 1,
+      rollNumbers     = rollNumbers,
+      itemBankDir     = itemBankDir,
+      AIDir           = AIDir
+    )
+
+  def generateAICodes(self):
+    return ["assessment-instrument"]
+
+  def shuffle(self, allItems):
+     pass
+
+class JumbledAIGenerator(AIGenerator):
+
+  def __init__(self,
+      applicationHome,
+      courseName,
+      courseCode,
+      assessmentName,
+      items,
+      numOfItems,
+      rollNumbers,
+      itemBankDir,
+      AIDir
+  ):
+    AIGenerator.__init__(self,
+      applicationHome = applicationHome,
+      courseName      = courseName,
+      courseCode      = courseCode,
+      assessmentName  = assessmentName,
+      items           = items,
+      numOfAIs        = 1,
+      numOfItems      = numOfItems,
+      rollNumbers     = rollNumbers,
+      itemBankDir     = itemBankDir,
+      AIDir           = AIDir
+    )
+
+  def generateAICodes(self):
+    return self.rollNumbers
+
+  def shuffle(self, allItems):
+    random.shuffle(allItems)
