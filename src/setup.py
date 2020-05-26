@@ -65,8 +65,8 @@ class Configuration:
       if(properties["qtype"] == "MCQ"):
         item = qtypes.MCQType(name, options, marks)
       elif(properties["qtype"] == "MTF"):
-        rangeSize = item(properties["range"])
-        item = qtypes.MTFType(name, options, rangeSize, marks)
+        rangeSize = int(properties["range"])
+        item = qtypes.MTFQType(name, options, rangeSize, marks)
       return item
 
     return [readItem(i) for i in itemsData]

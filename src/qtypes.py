@@ -30,4 +30,24 @@ class MTFQType(QType):
 
   @property
   def latexTemplate(self):
-    return "empty question"
+    s = "\n"
+    s += "Match the following:" + "\n"
+    s += "\\begin{center}" + "\n"
+    s += "\\begin{tabular}{c@{\\hspace{1cm}}c}" + "\n"
+    s += "\\begin{minipage}{0.40\\textwidth}" + "\n"
+    s += "\\begin{enumerate}" + "\n"
+    for i in range(self.domainSize):
+      s += "\t" + "\\item option " + str(i + 1) + "\n"
+    s += "\\end{enumerate}" + "\n"
+    s += "\\end{minipage}" + "\n"
+    s += "&" + "\n"
+    s += "\\begin{minipage}{0.40\\textwidth}" + "\n"
+    s += "\\begin{enumerate}[label=(\\Alph*)]" + "\n"
+    for i in range(self.rangeSize):
+      s += "\t" + "\\item option " + str(i + 1) + "\n"
+    s += "\\end{enumerate}" + "\n"
+    s += "\\end{minipage}" + "\n"
+    s += "\\end{tabular}" + "\n"
+    s += "\\end{center}" + "\n"
+
+    return s

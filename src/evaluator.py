@@ -116,7 +116,7 @@ class ReferenceReader(Reader):
   @staticmethod
   def parseMTF(row, qtype):
     mtfrow = Reader.parseMTFRow(row)
-    mcqs = [ReferenceReader.parseMCQ(cell, MCQType(qtype.rangeSize, 1.0/qtype.rangeSize)) for cell in mtfrow]
+    mcqs = [ReferenceReader.parseMCQ(cell, qtypes.MCQType("MCQ", qtype.rangeSize, qtype.totalMarks / qtype.domainSize )) for cell in mtfrow]
     return MTFQuestion(mcqs, qtype)
 
   def readQuestionPaper(self, fileName):
@@ -169,8 +169,8 @@ class MappingNotFoundError(Exception):
     Exception.__init__(self, mp + "mapping not found for " + st)
 
 class Question:
-  def __init__(self, e, qtype):
-    self.expected = e
+  def __init__(self, expected, qtype):
+    self.expected = expected
     self.questionType = qtype
 
   @property
@@ -178,8 +178,10 @@ class Question:
     return self.questionType.domainSize
 
 class MCQuestion(Question):
-  def __init__(self, e, qtype):
-    Question.__init__(self, e, qtype)
+  def __init__(self, expected, qtype):
+    Question.__init__(self,
+      expected = expected,
+      qtype = qtype)
     self.expectedChoices = self.convert(self.expected)
 
   # Function to translate [1, 3] to [True, False, True, False, False]
