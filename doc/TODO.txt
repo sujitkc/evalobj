@@ -1,3 +1,13 @@
+- 26 May 2020. Design change to orthogonalise question types and quiz types.
+  Explanation: Currently, we have two types of questions: MCQ and MTF, and two
+  types of quizzes: simple and jumbled. Both question types and quiz types are
+  expected to grow in number. It should be convenient to do so. For this, it is
+  necessary that they can grow independent of each other, i.e. adding a new
+  question type shouldn't need to know the quiz types currently available. 
+  Similarly, adding a new quiz type shouldn't require accounting for the
+  question types currently present.
+  Status: OPEN
+
 - 13 May 2020. Update the documentation to reflect the updates done till 13 May 2020.
   Status: OPEN
 
@@ -7,6 +17,9 @@
 
 - 05 May 2020. Create a new question type: Single Word. 
   Status: OPEN
+
+- 05 May 2020. Correct the implementation of MTF.
+  Status: CLOSED 26 May 2020
 
 - 03 May 2020. Modify setup.py to deal with both types of quizzes: simple and jumbled.
   Right now, it just does it for jumbled quizzes. A good approach seems to be to
