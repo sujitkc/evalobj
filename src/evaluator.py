@@ -299,6 +299,13 @@ class Evaluator:
     results = {}
     for rollNumber in self.rollNumbers:
       results[rollNumber] = self.__evaluate__(rollNumber)
+    with open("result.csv", "w") as fout:
+      for rollNumber in results:
+        row = rollNumber
+        marks = functools.reduce(lambda x, y: x + ", " + str(y), results[rollNumber].itemScores, "")
+        row += marks
+        row += ", " + str(results[rollNumber].total) + "\n"
+        fout.write(row)
     return results
 
 # Evaluator with jumbling of questions

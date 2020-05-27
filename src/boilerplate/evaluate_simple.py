@@ -18,4 +18,4 @@ if __name__ == "__main__":
     else:
       print(rollNumber, "\t", results[rollNumber])
 
-  print("total marks = ", evaluator.referenceScore)
+
