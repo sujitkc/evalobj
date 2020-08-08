@@ -18,6 +18,9 @@
 - 05 May 2020. Create a new question type: Single Word. 
   Status: OPEN
 
+- 31 May 2020. Add boilerplate files 'reset.sh' and 'restore.sh'
+  Status: CLOSED 31 May 2020
+
 - 26 May 2020. Evaluator to emit results as CSV.
   Status: CLOSED 27 May 2020
 

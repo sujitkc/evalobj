@@ -128,6 +128,7 @@
 	frameround=tttt,
 	numbers=none,
 	showstringspaces=false,
+	mathescape=true,
 	escapeinside={(*@}{@*)}
 }
 
@@ -141,6 +142,7 @@
 	frameround=tttt,
 	numbers=none,
 	showstringspaces=false,
+	mathescape=true,
 	escapeinside={(*@}{@*)}
 }
 
@@ -164,6 +166,8 @@
 		}
 	}
 }
+
+\newcommand{\kctt}[1]{{\color{Red}{\lstinline[basicstyle=\ttfamily, mathescape=true]@#1@}}}
 
 \title{A System for Automated Evaluation of Objective Questions}
 \begin{document}
@@ -332,6 +336,200 @@ The assessment project can be setup conveniently using the setup utility. The se
 \label{f:jquiz}
 \end{figure}
 The question paper creation step uses the \lstinline[style=pc]@genAIs@ (generate assessment items) and \lstinline@genQPs@ (generate question papers) modules. Once the question papers are generated, quiz is conducted. Finally, the automated evaluation process takes place using the \lstinline[style=pc]@JumbledEvaluator@ module.
+
+\section{Getting Started with a Demo}
+Let's get a bit hands on by running a demo and feeling our way around with the system. We assume that you would be using a bash like command shell for interacting with the system. We call the evalobj directory as \kctt{APPHOME}.
+\subsection{Start the demo}
+
+Go to the demo directory:
+\begin{lstlisting}[style=oc]
+cd APPHOME/test/j2/quizzes/demo
+\end{lstlisting}
+
+
+Clean up the directory:
+\begin{lstlisting}[style=oc]
+./reset.sh
+\end{lstlisting}
+
+Take a look at the contents of the directory.
+\begin{lstlisting}[style=oc]
+backup  config.json  packages  __pycache__  reset.sh
+\end{lstlisting}
+
+The only file here which is important to notice is the configuration file \kctt{config.json}. Every quiz will have its own configuration file with all the relevant meta-data pertaining to the quiz.
+
+Its contents (as they stand on date)are reproduced here:
+
+\lstinputlisting[basicstyle=\ttfamily\scriptsize, frame=single]{../test/j2/quizzes/demo/config.json}
+
+Here are the important fields of the configuration file and their meanings:
+\begin{itemize}
+\item \kctt{course name}: Name of the course
+\item \kctt{course code}: Course code as prescribed by the university
+\item \kctt{assessment name}: The exam name. Here it's ``demo", but in practice it could something like ``Quiz 1", ``Mid-term Examination" etc.
+\item \kctt{assessment type}: This is the quiz type. Currently, there are two types available: \kctt{simple} and \kctt{jumbled}.
+\item \kctt{roll number file}: The full path of the file which contains the roll numbers of all the students taking the examination. Note that the roll number file needs to have the roll numbers in a particular way. As it stands today, the required format is that the roll numbers will be listed in column 1 of a CSV file starting with the second row, the first row having the header ``Roll Number". For example:
+\lstinputlisting[basicstyle=\ttfamily\scriptsize, frame=single]{../test/j2/class.csv}
+\item \kctt{assessment home}: This directory -- for the application to know during runtime.
+\item \kctt{number of items per assessment instrument}: Number of questions you want on your question paper. Its relevance is based on the quiz type. In particular, a jumbled quiz will generate question papers each having so many questions on it. Simple quiz will simply ignore this field.
+\item \kctt{items}: This is the list of questions in the item bank. Here, we list 4 items named \kctt{item1}, \kctt{item2}, \kctt{item3} and \kctt{item4}. Each is an MCQ with 4 options and carrying 1 mark.  
+\end{itemize}
+
+Note that everytime we are creating a new quiz, config.json has to be created. Smooth flow of the rest of the process would depend on our writing this file properly.
+
+\subsection{Generate the quiz}
+
+\begin{lstlisting}[style=oc]
+APPHOME/src/setup.py config.json
+\end{lstlisting}
+
+This generates all the necessary files for the quiz. Let's take a look at the contents of the directory:
+\begin{lstlisting}[style=oc]
+assessment-instruments  backup  config.json  config.py  evaluation  gen.py  item-bank  packages  __pycache__  reset.sh
+\end{lstlisting}
+\begin{itemize}
+\item \kctt{assessment-instruments}: This is the directory created -- currently empty -- to contain the question papers once they are generated.
+\item \kctt{config.py}: This is the file which contains the Python translation of the contents of the \kctt{config.json} file.
+\item \kctt{evaluation}: This is the evaluation directory. The \kctt{evaluate.py} file is the evaluator file which will be run once the quiz is conducted and submissions have come in.
+\item \kctt{gen.py}: This script needs to be run next to generate the quiz.
+\item \kctt{item-bank}: This contains the item bank, in the form of stubs of \LaTeX\ text. These need to be filled up create the question papers. Note that there are five item stubs created, since that's the number of items mentioned in \kctt{config.json}. For example, the contents of the item1.tex is:
+\begin{lstlisting}[basicstyle=\ttfamily\small, frame=single]
+\question
+\label{q:SE101:demo:item1}
+\begin{enumerate}
+	\item option 1
+	\item option 2
+	\item option 3
+	\item option 4
+\end{enumerate}
+
+\end{lstlisting}
+\item \kctt{packages}: When the \kctt{gen.py} file is executed, it is this directory -- currently empty -- where the question papers will be generated. 
+\end{itemize}
+
+\subsection{Generate the Question Papers}
+Run the \kctt{gen.py} script.
+\begin{lstlisting}[style=oc]
+python3 gen.py
+\end{lstlisting}
+The main effect of running this script would that the \kctt{packages} directory is no more empty. It contains one directory for each roll number. In there, among other files, you will find the question paper for that roll number: \kctt{packages/rn1/rn1.pdf}, \kctt{packages/rn2/rn2.pdf}, \kctt{packages/rn3/rn3.pdf} and \kctt{packages/rn4/rn4.pdf}.
+
+There's one more change, though it needn't concern the user: a new file \kctt{AItoIBI.csv} has been generated. It's the mapping from roll assessment instrument to item bank items. As I type this, it looks like the following:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\kctt{rn2}&\kctt{item5}&\kctt{item3}&\kctt{item4} \\
+\hline
+\kctt{rn3}&\kctt{item4}&\kctt{item1}&\kctt{item3} \\
+\hline
+\kctt{rn4}&\kctt{item4}&\kctt{item3}&\kctt{item2} \\
+\hline
+\kctt{rn1}&\kctt{item2}&\kctt{item4}&\kctt{item1} \\
+\hline
+\end{tabular}
+\end{center}
+
+Again, it's not important for the user to know how to read it. However, for the curious minded, it means the following:
+Each row provides the source of each question in an assessment instrument (question paper). For example, for the assessment instrument \kctt{rn2} (first row), the first item is \kctt{item5} of the item bank, the second item is \kctt{item3} of the item bank and the third item is \kctt{item4} of the item bank.
+
+This completes the process of generating the question papers.
+
+\subsection{Administer the Quiz}
+At the time of administering the quiz, these question papers can be shared with the students using an appropriate external method, e.g. email, LMS or a shared drive. This is outside the purview of this system.
+
+At the end of administering the quiz, the submitted answers are provided in the submissions directory in a particular format. In this demo, we simulate the process of answer submission by running the backup script provided.
+
+\begin{lstlisting}[style=oc]
+cd backup
+./restore.sh
+cd ..
+\end{lstlisting}
+
+Once this is done, a new directory named submissions is created. Let's examine the contents of the submissions directory. You find the following contents:
+
+\begin{tikzpicture}
+\node(submissions) {\kctt{submissions}};
+\node(rn1) [below right=0.1cm of submissions]{\kctt{rn1}};
+\node(ta1) [below right=0.1cm of rn1]{\kctt{theory-answers.csv}};
+\node(rn2) [below =1cm of rn1]{\kctt{rn2}};
+\node(ta2) [below right=0.1cm of rn2]{\kctt{theory-answers.csv}};
+\node(rn3) [below =1cm of rn2]{\kctt{rn3}};
+\node(ta3) [below right=0.1cm of rn3]{\kctt{theory-answers.csv}};
+\node(rn4) [below =1cm of rn3]{\kctt{rn4}};
+\node(ta4) [below right=0.1cm of rn4]{\kctt{theory-answers.csv}};
+
+\draw[-, thick, Blue] (submissions) |- (rn1);
+\draw[-, thick, Blue] (submissions) |- (rn2);
+\draw[-, thick, Blue] (submissions) |- (rn3);
+\draw[-, thick, Blue] (submissions) |- (rn4);
+\draw[-, thick, Blue] (rn1) |- (ta1);
+\draw[-, thick, Blue] (rn2) |- (ta2);
+\draw[-, thick, Blue] (rn3) |- (ta3);
+\draw[-, thick, Blue] (rn4) |- (ta4);
+\end{tikzpicture}
+
+Each CSV file \kctt{submissions/rn$i$/theory-answers.csv} is the answer sheet of \kctt{rn$i$}. 
+
+Another effect of this step is a bit of a cheating! It over-writes the \kctt{AItoIBI.csv file} to ensure that the answers in the submitted answer sheets match the item bank items properly\footnote{Note that the question paper to item bank items mapping was generated randomly. Hence, it is impossible to reproduce using an already stored set of answers.}. However, if this seems confusing at this point, please simply ignore it.
+
+The final effect of this step is addition of a new file \kctt{theory-answers.csv} in the \kctt{evaluation} directory. This file corresponds to the instructor's reference solution. Its contents are as follows:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+1 & & & \\
+\hline
+1 & 2 & & \\
+\hline
+3 & & & \\
+\hline
+3 & 4 & & \\
+\hline
+1 & 2 & 3 & 4 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Evaluate the Quiz}
+To evaluate the quiz, simply enter the evaluation directory and run the evaluate script:
+\begin{lstlisting}[style=oc]
+cd evaluation
+python3 evaluate.py
+\end{lstlisting}
+
+You will see the following output:
+\begin{lstlisting}[style=oc]
+evaluating  rn1  ...
+evaluating  rn2  ...
+evaluating  rn3  ...
+evaluating  rn4  ...
+rn3 	 3.0
+rn1 	 3.0
+rn4 	 3.0
+rn2 	 3.0
+total marks =  roll number: reference
+item scores: [1.0, 1.0, 1.0, 1.0, 1.0]
+total score: 5.0
+\end{lstlisting}
+
+The result of evaluation is stored in the \kctt{result.csv} file in the \kctt{evaluation} directory. As of now, it looks like the following:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+rn3 & 1.0 & 0 & 1.0 & 1.0 & 0 & 3.0 \\
+\hline
+rn1 & 0 & 0 & 1.0 & 1.0 & 1.0 & 3.0 \\
+\hline
+rn4 & 1.0 & 0 & 1.0 & 1.0 & 0 & 3.0 \\
+\hline
+rn2 & 1.0 & 1.0 & 0 & 0 & 1.0 & 3.0 \\
+\hline
+\end{tabular}
+\end{center}
+
+This tabulates the marks each roll number (row) has got for each question (column). For example, the first row says that \kctt{rn3} has scored \kctt{1.0} for \kctt{item1}, \kctt{0} for \kctt{item2}, \kctt{1.0} for \kctt{item3}, \kctt{1.0} for \kctt{item4} and \kctt{0} for \kctt{item5}. The total score for \kctt{rn3} is \kctt{3} as summarised in column 7. Note that the items for which \kctt{rn3} has score 0 (i.e. \kctt{item2} and \kctt{item4}) are those which were not there in its question paper, which means the student scored full-marks.
+
 
 \chapter{Design}
 \section{Question Paper Codes}

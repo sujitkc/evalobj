@@ -86,7 +86,7 @@ class AIGenerator:
     self.AItoIBI = {}
     aiCodes = self.generateAICodes()
     for aiCode in aiCodes:
-      texFile = self.AIDir + aiCode + ".tex"
+      texFile = self.AIDir + "/" + aiCode + ".tex"
       with open(texFile, "w") as fout:
         self.AItoIBI[aiCode] = self.genAI(aiCode, fout)
       packageDirectory = "packages/" + aiCode

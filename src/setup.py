@@ -147,7 +147,7 @@ class Configuration:
       else:
         print("Item file " + itemFile + " found. Doing nothing.")
 
-    configSrcFile = self.assessmentHome + "config.py"
+    configSrcFile = self.assessmentHome + "/config.py"
     if(not os.path.exists(configSrcFile)):
       print("Configuration source file " + configSrcFile + \
         " not found. Creating ...")
@@ -175,15 +175,36 @@ class Configuration:
       print("Packages directory " + packagesDirectory \
         + " found. Doing nothing.")
 
-      # Copy gen.py
-    if(not os.path.exists(self.assessmentHome + "gen.py")):
+    backupDirectory = self.assessmentHome + "/backup/"
+    if(not os.path.exists(backupDirectory)):
+      print("Backup directory " + backupDirectory + " not found." \
+      " Creating ...")
+      os.mkdir(backupDirectory)
+    else:
+      print("backup directory " + backupDirectory + \
+            " found. Doing nothing.")
+
+    # Copy gen.py
+    if(not os.path.exists(self.assessmentHome + "/gen.py")):
       print("Copying gen.py to " + self.assessmentHome + " ...")
       if(self.assessmentType == "simple"):
         shutil.copyfile(self.applicationHome + "src/boilerplate/gen_simple.py", self.assessmentHome + \
-          "gen.py")
+          "/gen.py")
       if(self.assessmentType == "jumbled"):
         shutil.copyfile(self.applicationHome + "src/boilerplate/gen_jumbled.py", self.assessmentHome + \
-          "gen.py")
+          "/gen.py")
+
+    # Copy reset.sh
+    if(not os.path.exists(self.assessmentHome + "/reset.sh")):
+      print("Copying reset.sh to " + self.assessmentHome + " ...")
+      shutil.copyfile(self.applicationHome + "src/boilerplate/reset.sh", self.assessmentHome + \
+        "/reset.sh")
+
+    # Copy restore.sh
+    if(not os.path.exists(backupDirectory + "/restore.sh")):
+      print("Copying restore.sh to " + backupDirectory + " ...")
+      shutil.copyfile(self.applicationHome + "src/boilerplate/backup/restore.sh", backupDirectory + \
+        "restore.sh")
 
 if __name__ == "__main__":
   if(len(sys.argv) != 2):
