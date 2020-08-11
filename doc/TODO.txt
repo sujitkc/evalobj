@@ -8,15 +8,15 @@
   question types currently present.
   Status: OPEN
 
-- 13 May 2020. Update the documentation to reflect the updates done till 13 May 2020.
-  Status: OPEN
-
 - 05 May 2020. Create a new question type: Grouped. This allows generation of jumbled
   quiz among items grouped into one.
   Status: OPEN
 
 - 05 May 2020. Create a new question type: Single Word. 
   Status: OPEN
+
+- 13 May 2020. Update the documentation to reflect the updates done till 13 May 2020.
+  Status: CLOSED 11 August 2020
 
 - 31 May 2020. Add boilerplate files 'reset.sh' and 'restore.sh'
   Status: CLOSED 31 May 2020

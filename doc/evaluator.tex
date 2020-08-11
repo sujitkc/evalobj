@@ -295,16 +295,14 @@ The assessment project can be setup conveniently using the setup utility. The se
 \node[jn, right=0.5cm of qpgen](jn1) {};
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of qpgen](qp){Question \\ Paper};
 \node[dashed, draw=Black, fill=Pink!20, align=center, above=of qp](aiibi){$AI\rightarrow IBI$};
-\node[dashed, draw=Black, fill=Pink!20, align=center, below=of qp](aiqp){$AI\rightarrow QP$};
-\node[dashed, draw=Black, fill=Pink!20, align=center, below=of aiqp](rnqp){$RN\rightarrow QP$};
 
 \node[draw=Black, fill=OliveGreen!50, align=center, right=of qp](quiz){Quiz};
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of quiz](sresp){Student \\ Responses};
 \node[draw=Black, fill=OliveGreen!50, align=center, right=of sresp](jeval){Jumbled \\ Evaluator};
 \node[dashed, draw=Black, fill=Pink!20, align=center, right=of jeval](res){Results};
 
-\node[draw=Red, dotted, thick, minimum height=4.5cm, fit = (qpgen) (qp) (aiibi) (rnqp)] (setup) {};
-\node[fill=Gray, above right=0.1cm of setup.south west](lsetup){Set up};
+\node[draw=Red, dotted, thick, minimum height=4.5cm, fit = (qpgen) (qp) (aiibi)] (setup) {};
+\node[fill=Gray, above right=0.1cm of setup.south](lsetup){Set up};
 
 \node[draw=Red, dotted, thick, minimum height=3.5cm, fit = (quiz) (sresp)] (exam) {};
 \node[fill=Gray, above=0.1cm of exam.south](lexam){Exam};
@@ -317,15 +315,11 @@ The assessment project can be setup conveniently using the setup utility. The se
 
 \draw[-latex, thick] (jn1) -- (qp);
 \draw[-latex, dashed, thick] (jn1) |- (aiibi);
-\draw[-latex, dashed, thick] (jn1) |- (aiqp);
-\draw[-latex, dashed, thick] (jn1) |- (rnqp);
 
 \draw[-latex, thick] (qp) -- (quiz);
 \draw[-latex, thick] (quiz) -- (sresp);
 \draw[-latex, thick] (sresp) -- (jeval);
 \draw[-latex, dashed, thick] (aiibi) -| (jeval);
-\draw[-latex, dashed, thick] (aiqp) -| (jeval);
-\draw[-latex, dashed, thick] (rnqp) -| (jeval);
 
 \draw[-latex, thick] (jeval) -- (res);
 
@@ -335,8 +329,10 @@ The assessment project can be setup conveniently using the setup utility. The se
 \caption{Jumbled Quiz Workflow}
 \label{f:jquiz}
 \end{figure}
-The question paper creation step uses the \lstinline[style=pc]@genAIs@ (generate assessment items) and \lstinline@genQPs@ (generate question papers) modules. Once the question papers are generated, quiz is conducted. Finally, the automated evaluation process takes place using the \lstinline[style=pc]@JumbledEvaluator@ module.
 
+The question paper creation step uses the \kctt{genAIs} (generate assessment items) module. Once the question papers are generated, quiz is conducted. Finally, the automated evaluation process takes place using the \lstinline[style=pc]@JumbledEvaluator@ module.
+
+As you would have observed, the workflow for jumbled quiz remains the same at high level as that of simple quiz. The difference lies in the fact that a separate question paper is generated for each roll number. This mapping is maintained in $AI\rightarrow IBI$ data item by the system. Note that $AI\rightarrow IBI$ doesn't concern the user. It is an internal artifact of the system (and hence shown connected through dashed lines to the rest of the system in Figure~\ref{f:jquiz}) and is later used by the evaluator to map back the questions to their source in the item bank for evaluation purpose.
 \section{Getting Started with a Demo}
 Let's get a bit hands on by running a demo and feeling our way around with the system. We assume that you would be using a bash like command shell for interacting with the system. We call the evalobj directory as \kctt{APPHOME}.
 \subsection{Start the demo}
