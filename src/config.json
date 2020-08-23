@@ -1,0 +1,62 @@
+{
+  "course name"       : "Software Design",
+  "course code"       : "SE101",
+  "assessment name"   : "demo",
+  "assessment type"   : "jumbled",
+  "roll number file"  : "/home/keshav/Desktop/P1-Evaluation/test/j2/class.csv",
+  "assessment home"   : "/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo/",
+  "number of items per assessment instrument" : "3",
+  "items"             : [
+    {
+      "name" : "item1",
+      "question": "whaterver",
+      "properties" : 
+        {
+          "qtype" : "MTF",
+          "options" : "4",
+          "range" : "7",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item2",
+      "question": "whaterver",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item3",
+      "question": "whaterver",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item4",
+      "question": "whaterver",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item5",
+      "question": "whaterver",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "4",
+          "marks"   : "1"
+        }
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 import os
 import random
 import functools
+from src.boilerplate.gui import GUIGeneartor
+
 
 class AIGenerator:
   def __init__(self,
@@ -64,7 +66,7 @@ class AIGenerator:
 
   # Generate a single headless assessment instrument. It is a LaTeX file with the 
   # initial part missing.
-  def genAI(self, aiCode, fout):
+  def genAI(self, aiCode, fout, config):
     title = "\\title{" + self.courseName + "\\\\" +  self.assessmentName + "}\n"
 
     allItems = self.items[:]
@@ -78,17 +80,17 @@ class AIGenerator:
     ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable + \
            self.h3 + stritems + self.footer
     fout.write(ai)
-
+    gui = GUIGeneartor(items, aiCode, config)
     return items
 
   # Generate all assessment instruments.
-  def genAIs(self):
+  def genAIs(self, config):
     self.AItoIBI = {}
     aiCodes = self.generateAICodes()
     for aiCode in aiCodes:
-      texFile = self.AIDir + "/" + aiCode + ".tex"
+      texFile = self.AIDir + aiCode + ".tex"
       with open(texFile, "w") as fout:
-        self.AItoIBI[aiCode] = self.genAI(aiCode, fout)
+        self.AItoIBI[aiCode] = self.genAI(aiCode, fout, config)
       packageDirectory = "packages/" + aiCode
       if(not os.path.exists(packageDirectory)):
         os.mkdir(packageDirectory)

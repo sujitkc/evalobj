@@ -8,6 +8,7 @@ import functools
 
 import utils
 import qtypes
+from path import Path
 
 class Configuration:
   def __init__(self, configFile):
@@ -16,7 +17,7 @@ class Configuration:
 
     print(data)
 
-    self.applicationHome = "/home/sujit/IIITB/projects/evalobj/"
+    self.applicationHome = Path.applicationHome
 
     if("course name" in data):
       self.courseName     = data["course name"]
@@ -62,11 +63,13 @@ class Configuration:
       properties = itemData["properties"]
       options = int(properties["options"])
       marks   = int(properties["marks"])
+      question = itemData["question"]
+      qtype = properties["qtype"]
       if(properties["qtype"] == "MCQ"):
-        item = qtypes.MCQType(name, options, marks)
+        item = qtypes.MCQType(name,qtype, options, marks)
       elif(properties["qtype"] == "MTF"):
         rangeSize = int(properties["range"])
-        item = qtypes.MTFQType(name, options, rangeSize, marks)
+        item = qtypes.MTFQType(name,qtype, options, rangeSize, marks)
       return item
 
     return [readItem(i) for i in itemsData]
@@ -85,6 +88,9 @@ class Configuration:
     s += "assessmentName = \"" + self.assessmentName + "\"\n"
     s += "assessmentHome = \"" + self.assessmentHome + "\"\n"
     s += "rollNumberFile = \"" + self.rollNumberFile + "\"\n"
+    stritems = ""
+    # for i in self.items:
+    #   stritems += i.name + " : " + i.type + " : " + str(i.domainSize) + " : " + str(i.totalMarks) + ","
     stritems = functools.reduce(lambda x, y: x + y + ", ", [str(i) for i in self.items], "")
     s += "items = [" + stritems + "]\n"
     if(self.assessmentType == "jumbled"):
@@ -147,8 +153,8 @@ class Configuration:
       else:
         print("Item file " + itemFile + " found. Doing nothing.")
 
-    configSrcFile = self.assessmentHome + "/config.py"
-    if(not os.path.exists(configSrcFile)):
+    configSrcFile = self.assessmentHome + "config.py"
+    if not os.path.exists(configSrcFile):
       print("Configuration source file " + configSrcFile + \
         " not found. Creating ...")
       with open(configSrcFile, "w") as fout:
@@ -175,36 +181,15 @@ class Configuration:
       print("Packages directory " + packagesDirectory \
         + " found. Doing nothing.")
 
-    backupDirectory = self.assessmentHome + "/backup/"
-    if(not os.path.exists(backupDirectory)):
-      print("Backup directory " + backupDirectory + " not found." \
-      " Creating ...")
-      os.mkdir(backupDirectory)
-    else:
-      print("backup directory " + backupDirectory + \
-            " found. Doing nothing.")
-
-    # Copy gen.py
-    if(not os.path.exists(self.assessmentHome + "/gen.py")):
+      # Copy gen.py
+    if(not os.path.exists(self.assessmentHome + "gen.py")):
       print("Copying gen.py to " + self.assessmentHome + " ...")
       if(self.assessmentType == "simple"):
         shutil.copyfile(self.applicationHome + "src/boilerplate/gen_simple.py", self.assessmentHome + \
-          "/gen.py")
+          "gen.py")
       if(self.assessmentType == "jumbled"):
         shutil.copyfile(self.applicationHome + "src/boilerplate/gen_jumbled.py", self.assessmentHome + \
-          "/gen.py")
-
-    # Copy reset.sh
-    if(not os.path.exists(self.assessmentHome + "/reset.sh")):
-      print("Copying reset.sh to " + self.assessmentHome + " ...")
-      shutil.copyfile(self.applicationHome + "src/boilerplate/reset.sh", self.assessmentHome + \
-        "/reset.sh")
-
-    # Copy restore.sh
-    if(not os.path.exists(backupDirectory + "/restore.sh")):
-      print("Copying restore.sh to " + backupDirectory + " ...")
-      shutil.copyfile(self.applicationHome + "src/boilerplate/backup/restore.sh", backupDirectory + \
-        "restore.sh")
+          "gen.py")
 
 if __name__ == "__main__":
   if(len(sys.argv) != 2):

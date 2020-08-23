@@ -23,5 +23,5 @@ if __name__ == "__main__":
           itemBankDir      = config.assessmentHome + "/item-bank/",
           AIDir           = config.assessmentHome + "assessment-instruments/"
   )
-  aig.genAIs()
+  aig.genAIs(config.items)
   aig.writeAItoIBI()

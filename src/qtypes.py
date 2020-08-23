@@ -1,15 +1,17 @@
 class QType:
-  def __init__(self, name, n, tm):
+  def __init__(self, name,t,n, tm):
     self.name       = name
+    self.type       = t
     self.domainSize = n
     self.totalMarks = float(tm)
+    print(self.name)
 
 class MCQType(QType):
-  def __init__(self, name, n, tm):
-    QType.__init__(self, name, n, tm)
+  def __init__(self, name, t, n, tm):
+    QType.__init__(self, name, t, n, tm)
 
   def __str__(self):
-    return "MCQType(\"" + self.name + "\", " + str(self.domainSize) + ", " + str(self.totalMarks) + ")"
+    return "MCQType(\"" + self.name + "\"," +"\""+str(self.type) + "\"" + "," +str(self.domainSize) + ", " + str(self.totalMarks) + ")"
 
   @property
   def latexTemplate(self):
@@ -21,12 +23,12 @@ class MCQType(QType):
     return s
 
 class MTFQType(QType):
-  def __init__(self, name, n1, n2, tm):
-    QType.__init__(self, name, n1, tm)
+  def __init__(self, name, t, n1, n2, tm):
+    QType.__init__(self, name, t, n1, tm)
     self.rangeSize = n2
 
   def __str__(self):
-    return "MTFQType(\"" + self.name + "\", " + str(self.domainSize) + ", " + str(self.rangeSize) + ", " + str(self.totalMarks) + ")"
+    return "MTFQType(\"" + self.name + "\"," +"\""+str(self.type) + "\"" + ","+ str(self.domainSize) + ", " + str(self.rangeSize) + ", " + str(self.totalMarks) + ")"
 
   @property
   def latexTemplate(self):

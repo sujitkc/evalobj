@@ -7,9 +7,10 @@ import string
 import subprocess
 import functools
 import traceback
+from src.path import Path
 
 
-sys.path.append("/home/sujit/IIITB/projects/evalobj/src")
+sys.path.append(Path.applicationHome)
 import utils
 import qtypes
 
