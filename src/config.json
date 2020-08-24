@@ -3,8 +3,8 @@
   "course code"       : "SE101",
   "assessment name"   : "demo",
   "assessment type"   : "jumbled",
-  "roll number file"  : "/home/keshav/Desktop/P1-Evaluation/test/j2/class.csv",
-  "assessment home"   : "/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo/",
+  "roll number file"  : "/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/class.csv",
+  "assessment home"   : "/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo/",
   "number of items per assessment instrument" : "3",
   "items"             : [
     {

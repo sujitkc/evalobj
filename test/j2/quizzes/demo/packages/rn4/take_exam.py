@@ -23,7 +23,7 @@ class letsQuiz:
         list = []
         for i in range(len(ques)):
             list.append("")
-        csvfile = open('theory_answers.csv', 'wt', newline='')
+        csvfile = open('response/theory_answers.csv', 'wt', newline='')
         obj = csv.writer(csvfile)
         obj.writerows(list)
 
@@ -82,12 +82,12 @@ class letsQuiz:
                     flag = 1
                     ans += str(i + 1)
 
-            f = open('theory_answers.csv', "r")
+            f = open('response/theory_answers.csv', "r")
             contents = f.readlines()
             f.close()
             contents[self.question_counter] = "\n"
             contents.insert(self.question_counter, ans)
-            f = open('theory_answers.csv', "w")
+            f = open('response/theory_answers.csv', "w")
             contents = "".join(contents)
             f.write(contents)
             f.close()
@@ -112,19 +112,19 @@ class letsQuiz:
                         flag = 1
                         ans += str(j + 1)
                 ans+='"'
-            f = open('theory_answers.csv', "r")
+            f = open('response/theory_answers.csv', "r")
             contents = f.readlines()
             f.close()
             contents[self.question_counter] = "\n"
             contents.insert(self.question_counter, ans)
-            f = open('theory_answers.csv', "w")
+            f = open('response/theory_answers.csv', "w")
             contents = "".join(contents)
             f.write(contents)
             f.close()
 
 
     def checkbox_status(self):
-        f = open('theory_answers.csv', "r")
+        f = open('response/theory_answers.csv', "r")
         contents = f.readlines()
         f.close()
         k = contents[self.question_counter]
@@ -134,7 +134,7 @@ class letsQuiz:
                 self.answers[int(i) - 1].set(1)
 
     def checkbox_status1(self):
-        f = open('theory_answers.csv', "r")
+        f = open('response/theory_answers.csv', "r")
         contents = f.readlines()
         f.close()
         k = contents[self.question_counter]

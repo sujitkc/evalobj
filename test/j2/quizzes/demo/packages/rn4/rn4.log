@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.19)  23 AUG 2020 19:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.19)  24 AUG 2020 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo/assessment-instrument
-s/rn4.tex
+**/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo/assessment-instrum
+ents/rn4.tex
 
-(/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo/assessment-instruments
-/rn4.tex
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo/assessment-instrume
+nts/rn4.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14>
 (/usr/share/texlive/texmf-dist/tex/latex/exam/exam.cls
@@ -1003,10 +1003,13 @@ Type  H <return>  for immediate help.
 l.64 \cellcolor{Gray!10}3&
                            & & & & & & & & & \\
 ? 
-(/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo//item-bank//item3.tex)
-(/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo//item-bank//item2.tex)
-(/home/keshav/Desktop/P1-Evaluation/test/j2/quizzes/demo//item-bank//item4.tex)
-[1
+
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo//item-bank//item1.t
+ex)
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo//item-bank//item4.t
+ex)
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/j2/quizzes/demo//item-bank//item5.t
+ex) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 This exam contains 3 questions with 0 parts, 0 subparts, and 0 subsubparts.
@@ -1030,20 +1033,20 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 78.
  ) 
 Here is how much of TeX's memory you used:
- 22744 strings out of 481239
- 441624 string characters out of 5920377
- 908429 words of memory out of 5000000
- 37543 multiletter control sequences out of 15000+600000
+ 22752 strings out of 481239
+ 441740 string characters out of 5920377
+ 910429 words of memory out of 5000000
+ 37544 multiletter control sequences out of 15000+600000
  539138 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,83p,484b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,10n,83p,487b,457s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on packages/rn4/rn4.pdf (1 page, 36590 bytes).
+Output written on packages/rn4/rn4.pdf (1 page, 41165 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 47 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
+ 78 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
+ 24 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

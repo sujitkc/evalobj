@@ -46,6 +46,12 @@ class GUIGeneartor():
                   " found. Doing nothing.")
         shutil.copyfile(self.applicationHome + "src/boilerplate/take_exam.py",
                         aiDirec + "take_exam.py")
+        shutil.copyfile(self.applicationHome + "src/boilerplate/instructions.txt",
+                        aiDirec + "instructions.txt")
+        submission= aiDirec + "response/"
+        if (not os.path.exists(submission)):
+            os.mkdir(submission)
+
 
     def __str__(self):
         s = ""
@@ -56,7 +62,7 @@ class GUIGeneartor():
         s += "root.title('CHAOS_EXAM_GUI')" + "\n"
         s += "root.geometry(\"700x600\")" + "\n"
         s += "frame1 = Frame(root)" + "\n"
-        s += "f = open('theory_answers.csv', 'w+')" + "\n"
+        s += "f = open('response/theory_answers.csv', 'w+')" + "\n"
 
         s += "ques = " + str(self.ques) + "\n"
         s += "quiz = letsQuiz(root, ques, frame1)" + "\n"
@@ -69,6 +75,7 @@ class GUIGeneartor():
         s += "message_label2.pack()" + "\n"
         s += "button1.pack()" + "\n"
         s += "root.protocol(\"WM_DELETE_WINDOW\", root.iconify)" + "\n"
+
         s += "root.mainloop()" + "\n"
         # s += "window = tk.Tk()" + "\n"
         # s += "canvas = tk.Canvas(window, width=450, height=500)" + "\n"

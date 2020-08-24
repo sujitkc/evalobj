@@ -4,8 +4,8 @@ root = Tk()
 root.title('CHAOS_EXAM_GUI')
 root.geometry("700x600")
 frame1 = Frame(root)
-f = open('theory_answers.csv', 'w+')
-ques = [['MCQ', 1.0, 4, 0, 'item3'], ['MTF', 1.0, 4, 7, 'item1'], ['MCQ', 1.0, 4, 0, 'item4']]
+f = open('response/theory_answers.csv', 'w+')
+ques = [['MCQ', 1.0, 4, 0, 'item2'], ['MCQ', 1.0, 4, 0, 'item3'], ['MTF', 1.0, 4, 7, 'item1']]
 quiz = letsQuiz(root, ques, frame1)
 message_label1 = Label(text="IIITB EXAM PORTAL\nThis quiz is conducted by - \n", font = ( "Arial", "25"), padx=40, pady=20)
 message_label2 = Label(root, text="Click 'Continue' to begin the exam.", wraplength=250)
