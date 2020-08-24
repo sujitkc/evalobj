@@ -1,0 +1,15 @@
+You have following two files to complete this python quiz
+
+1. <Roll-number>.pdf 
+Which contains question paper for your python quiz.
+
+2. <Roll-number>.py
+It is a GUI file developed using python language and this will be used to collect your response for each question.
+
+Pre requisite module to run this python script
+- pip install tkinter
+After installing tkinter you can directly run 
+python <roll-number>.py
+And fill the corresponding response by selecting an appropiate options.
+
+Finally you have to upload the generated folder by zipping it as <your-rollNumber>.zip eg. MT2019053.zip in LMS.
