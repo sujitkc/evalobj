@@ -1,0 +1,26 @@
+\question
+Which of the following statements are correct about the given code snippet?
+\begin{lstlisting}
+class A:
+    def _init_(self, i = 0):
+        self.i = i
+
+class B(A):
+    def _init_(self, j = 0):
+        self.j = j
+
+def main():
+    b = B()
+    print(b.i)
+    print(b.j)
+
+main()
+\end{lstlisting}
+
+\begin{enumerate}
+\item Class \lstinline@B@ inherits \lstinline@A@, but the data field \lstinline@'i'@ in \lstinline@A@ is not inherited.
+\item \lstinline@Class B inherits A@, thus automatically inherits all data fields in \lstinline@A@.
+\item When you create an object of \lstinline@B@, you have to pass an argument such as \lstinline@B(5)@.
+\item The data field \lstinline@'j'@ cannot be accessed by object \lstinline@b@.
+\end{enumerate}
+

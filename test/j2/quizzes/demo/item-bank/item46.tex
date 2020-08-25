@@ -1,0 +1,20 @@
+\question
+What will be the output of the following code snippet?
+
+\begin{lstlisting}
+class Sales:
+    def _init_(self, id):
+        self.id = id
+        id = 100
+
+val = Sales(123)
+print (val.id)
+\end{lstlisting}
+
+\begin{enumerate}
+\item \lstinline@SyntaxError@, this program will not run
+\item \lstinline@100@
+\item \lstinline@123@
+\item None of the above
+\end{enumerate}
+

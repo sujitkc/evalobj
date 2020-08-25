@@ -1,0 +1,24 @@
+\question
+What happens in the below code?
+
+\begin{lstlisting}
+class A: 
+   def __init__(self, i=100): 
+      self.i=i 
+class B(A): 
+   def __init__(self,j=0): 
+      self.j=j 
+def main(): 
+   b= B() 
+   print(b.i) 
+   print(b.j) 
+main() 
+\end{lstlisting}
+
+\begin{enumerate}
+\item Class \lstinline@B@ inherits all the data fields of class \lstinline@A@.
+\item Class \lstinline@B@ needs an Argument.
+\item The data field \lstinline@'j'@ cannot be accessed by object \lstinline@b@.
+\item Class \lstinline@B@ is inheriting class \lstinline@A@ but the data field \lstinline@'i'@ in \lstinline@A@ cannot be inherited.
+\end{enumerate}
+

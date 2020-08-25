@@ -29,7 +29,7 @@ class GUIGeneartor():
         print(self.ques)
         self.display()
     def display(self):
-        packageDirectory = self.applicationHome + "test/j2/quizzes/demo/packages/"
+        packageDirectory = self.applicationHome + "test/python_quiz/packages/"
         if (not os.path.exists(packageDirectory)):
             os.mkdir(packageDirectory)
         aiDirec = packageDirectory + self.aiCode + "/"
@@ -77,17 +77,6 @@ class GUIGeneartor():
         s += "root.protocol(\"WM_DELETE_WINDOW\", root.iconify)" + "\n"
 
         s += "root.mainloop()" + "\n"
-        # s += "window = tk.Tk()" + "\n"
-        # s += "canvas = tk.Canvas(window, width=450, height=500)" + "\n"
-        # s += "canvas.pack()" + "\n"
-        # for i in self.data:
-        #     print(i)
-        #     s += "greetings = tk.Label(text='"+ i.name +"')" + "\n"
-        #     s += "greetings.pack()" + "\n"
-        #     for k in range(4):
-        #         s += "options = tk.Label(text = '"+str(k + 1)+"'" + ")" + "\n"
-        #         s += "options.pack()" + "\n"
-        # s += "window.mainloop()" + "\n"
         return s
 
 
