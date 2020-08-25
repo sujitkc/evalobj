@@ -44,24 +44,24 @@ class AIGenerator:
       self.h3 = fin.read()
     with open(self.applicationHome + "src/tex/b2.tex", "r") as fin:
       self.footer = fin.read()
-    self.responseTable = self.getResponseTable()
+  #   self.responseTable = self.getResponseTable()
 
-  def getResponseTable(self):
-    tableHeader = "\\begin{center}\n" + \
-                  "\\textbf{Response Table}\n" + \
-                  "\\begin{tabular}{| l | p{1cm} | p{1cm} | p{1cm} | p{1cm} |" + \
-                  " p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}\n" + \
-                  "\\hline"
+  # def getResponseTable(self):
+  #   tableHeader = "\\begin{center}\n" + \
+  #                 "\\textbf{Response Table}\n" + \
+  #                 "\\begin{tabular}{| l | p{1cm} | p{1cm} | p{1cm} | p{1cm} |" + \
+  #                 " p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}\n" + \
+  #                 "\\hline"
 
-    tableFooter = "\\end{tabular}\n" + \
-                  "\\end{center}"
-    lines = ""
-    for itemNum in range(1, self.numOfItems + 1):
-      line = "\\cellcolor{Gray!10}" + str(itemNum) + "& & & & & & & & & & \\\\\n" + \
-             "\hline\n"
-      lines += line
+  #   tableFooter = "\\end{tabular}\n" + \
+  #                 "\\end{center}"
+  #   lines = ""
+  #   for itemNum in range(1, self.numOfItems + 1):
+  #     line = "\\cellcolor{Gray!10}" + str(itemNum) + "& & & & & & & & & & \\\\\n" + \
+  #            "\hline\n"
+  #     lines += line
 
-    return tableHeader + lines + tableFooter
+  #   return tableHeader + lines + tableFooter
 
 
   # Generate a single headless assessment instrument. It is a LaTeX file with the 
@@ -77,7 +77,7 @@ class AIGenerator:
       itemFileName = self.itemBankDir + "/" + item + ".tex"
       item = "\n" + "\\input{" + itemFileName + "}" + "\n"
       stritems += item
-    ai = self.h1 + title + self.h1_1 + aiCode + self.h2 + self.responseTable + \
+    ai = self.h1 + title + self.h1_1 + aiCode + self.h2  + \
            self.h3 + stritems + self.footer
     fout.write(ai)
     gui = GUIGeneartor(items, aiCode, config)

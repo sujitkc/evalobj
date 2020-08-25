@@ -67,7 +67,7 @@ class GUIGeneartor():
         s += "ques = " + str(self.ques) + "\n"
         s += "quiz = letsQuiz(root, ques, frame1)" + "\n"
 
-        s += "message_label1 = Label(text=\"IIITB EXAM PORTAL\\nThis quiz is conducted by - \\n\", font = ( \"Arial\", \"25\"), padx=40, pady=20)" + "\n"
+        s += "message_label1 = Label(text=\"IIITB EXAM PORTAL\\nPYTHON QUIZ - [prep term]\\n\", font = ( \"Arial\", \"25\"), padx=40, pady=20)" + "\n"
         s += "message_label2 = Label(root, text=\"Click 'Continue' to begin the exam.\", wraplength=250)" + "\n"
         s += "button1 = Button(root, text =\"Continue\", command=lambda:[message_label1.pack_forget(),message_label2.pack_forget(),button1.pack_forget(),quiz.packheader()], width=16, bg=\"teal\")" + "\n"
 

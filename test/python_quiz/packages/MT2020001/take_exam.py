@@ -29,9 +29,14 @@ class letsQuiz:
 
         self.label1 = Label(self.newWindow, text="IIITB EXAMINATION", font=
         ("Arial", "30"), pady=30)
+        s=""
+        s+="Instruction:\n"
+        s+="1. Each question contain 1 mark.\n"
+        s+="2. There is no negative marking.\n"
+        s+="3. After completing the exam upload the folder <response> in LMS, \nafter zipping that folder as mentioned in Instructions.txt"
 
-        self.label2 = Label(self.newWindow, text="Print Instructions", font=
-        ("Arial", "24"), pady=30)
+        self.label2 = Label(self.newWindow, text=s, font=
+        ("Arial", "14"), pady=30)
 
         self.start = Button(self.newWindow, text="Start",
                             command=lambda: [self.label2.pack_forget(), self.start.pack_forget(), self.next_question()])

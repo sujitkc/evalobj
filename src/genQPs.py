@@ -43,24 +43,24 @@ class QPGenerator:
       self.h2 = fin.read()
     with open(self.applicationHome + "src/h3.tex", "r") as fin:
       self.h3 = fin.read()
-    self.responseTable = self.getResponseTable()
+  #   self.responseTable = self.getResponseTable()
 
-  def getResponseTable(self):
-    tableHeader = "\\begin{center}\n" + \
-                  "\\textbf{Response Table}\n" + \
-                  "\\begin{tabular}{| l | p{1cm} | p{1cm} | p{1cm} | p{1cm} |" + \
-                  " p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}\n" + \
-                  "\\hline"
+  # def getResponseTable(self):
+  #   tableHeader = "\\begin{center}\n" + \
+  #                 "\\textbf{Response Table}\n" + \
+  #                 "\\begin{tabular}{| l | p{1cm} | p{1cm} | p{1cm} | p{1cm} |" + \
+  #                 " p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} | p{1cm} |}\n" + \
+  #                 "\\hline"
 
-    tableFooter = "\\end{tabular}\n" + \
-                  "\\end{center}"
-    lines = ""
-    for qnum in range(1, self.numOfQuestions + 1):
-      line = "\\cellcolor{Gray!10}" + str(qnum) + "& & & & & & & & & & \\\\\n" + \
-             "\hline\n"
-      lines += line
+  #   tableFooter = "\\end{tabular}\n" + \
+  #                 "\\end{center}"
+  #   lines = ""
+  #   for qnum in range(1, self.numOfQuestions + 1):
+  #     line = "\\cellcolor{Gray!10}" + str(qnum) + "& & & & & & & & & & \\\\\n" + \
+  #            "\hline\n"
+  #     lines += line
 
-    return tableHeader + lines + tableFooter
+  #   return tableHeader + lines + tableFooter
 
   # Generate a single question paper.
   def genQP(self, ai, qp_num):
@@ -68,7 +68,7 @@ class QPGenerator:
 
     with open(self.AI_dir + ai + ".tex", "r") as fin:
       aitext = fin.read()
-      qp = self.h1 + title + self.h1_1 + str(qp_num) + self.h2 + self.responseTable + self.h3 + \
+      qp = self.h1 + title + self.h1_1 + str(qp_num) + self.h2 + self.h3 + \
             aitext
     with open(self.QP_dir + "qp" + str(qp_num) + ".tex", "w") as fout:
       fout.write(qp)

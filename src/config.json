@@ -1,7 +1,7 @@
 {
   "course name"       : "Python-PrepTerm",
-  "course code"       : "SKC_Python",
-  "assessment name"   : "python_quiz",
+  "course code"       : "SKC-Python",
+  "assessment name"   : "Quiz",
   "assessment type"   : "jumbled",
   "roll number file"  : "/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz/class.csv",
   "assessment home"   : "/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz/",
