@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import sys
 import os
 import csv
@@ -8,34 +7,18 @@ import subprocess
 import functools
 import traceback
 from src.path import Path
+import src.utils as utils
+import src.qtypes as qtypes
 
 
 sys.path.append(Path.applicationHome)
-import utils
-import qtypes
-
-# Read from file the model answers and prepare a list of questions.
-# qtypes: Question type list. qtypes[i] is the question type of
-# i-th line in the input file. 
-# Reading rules:
-# - When reading i-th line from the file, refer to qtypes[i]
-# - If qtype[i] = MCQ(n), expect each cell to contain an integer.
-# - Else If qtype[i] = MTF(n1, n2)
-#     * expect each cell to contain a list of integers.
-#     * expect there to be exactly n1 number of cells in the row.
-#     * Each integer in a cell should be in the range (1, n2).
-#     * A cell may sometime be a list [0], in which case we assume that the
-#         corresponding option has not been attempted.
-# - Else (if qtype[i] = None)
-#     This line should be ignored
-
+  
 class QuestionPaper:
   def __init__(self, questions, qtypes):
     self.questions = questions
     self.questionTypes = qtypes
 
   def evaluate(self, answers, rollNumber="reference"):
-
     itemScores = []
     for i in range(len(self.questionTypes)):
       itemScore = 0.0
@@ -78,7 +61,7 @@ class Reader:
       rows = list(csvContents)
     while(rowNum < len(rows)):
       row = rows[rowNum]
-      trimmedRow = [cell for cell in row if cell is not ""]
+      trimmedRow = [cell for cell in row if cell != ""]
       if(len(trimmedRow) != 0):
         parsedRow = self.parseRow(trimmedRow, rowNum)
         trimmedContents.append(parsedRow)
@@ -88,12 +71,14 @@ class Reader:
     return trimmedContents
 
   def parseRow(self, row, i):
+
     qtype = self.questionTypes[i]
-    if(qtype.__class__.__name__ == "MCQType"):
-      return self.parseMCQ(row, qtype)
-    elif(qtype.__class__.__name__ == "MTFQType"):
-      return self.parseMTF(row, qtype)
-    else:
+    className = qtype.__class__.__name__
+    className = className.replace("QType", "")
+    try:
+      method = "parseQ" + className
+      return getattr(self, method)(row, qtype)
+    except:
       return None
 
   @staticmethod
@@ -104,8 +89,6 @@ class Reader:
 
     return [getChoices(cell) for cell in row]
 
-# ReferenceReader assumes that it is reading a reference file. Hence,
-#  it'll generate a list of questions.
 class ReferenceReader(Reader):
   def __init__(self, qtypes):
     Reader.__init__(self, qtypes)
@@ -123,8 +106,6 @@ class ReferenceReader(Reader):
   def readQuestionPaper(self, fileName):
     return QuestionPaper(self.__readContents__(fileName), self.questionTypes)
  
-# AnswerReader assumes that it is reading an answer file. Hence, it'll
-#  generate a list of answers.
 class AnswerReader(Reader):
   def __init__(self, qtypes):
     Reader.__init__(self, qtypes)
@@ -140,12 +121,6 @@ class AnswerReader(Reader):
   def readAnswers(self, fileName):
     return AnswerSheet(self.__readContents__(fileName))
 
-# Exception class to deal with the situation when the submission doesn't match
-# in length with the expected. It may happen when:
-# - when the number of items in the output is different from that in the
-# expected.
-# - when the number of choices in the individual item is different.
-# - ... or in other unforeseen situations of similar type.
 class IncompatibleLengthError(Exception):
   def __init__(self, e, a):
     self.expected = e
@@ -199,15 +174,21 @@ class MCQuestion(Question):
     if(len(self.expectedChoices) != len(answer)):
       raise IncompatibleLengthError(len(self.expectedChoices), len(answer))
     score = 0
+
     zipped = zip(self.expectedChoices, answer)
     for (a, b) in zipped:
-      if(a == b):
+      if(a and b):
         score += 1
-    return float(score) / float(self.domainSize)
+    print(self.expectedChoices)
+    print("test")
+    print(answer)
+    return float(score) / float(len(self.expected))
+    #return float(score) / float(self.domainSize)
 
   def evaluate(self, answer):
     expectedChoices = self.convert(self.expected)
-
+    if(answer == None):
+      return 0
     answerChoices = self.convert(answer)
 
     if(0 not in answer):
@@ -264,15 +245,15 @@ class Evaluator:
   def __init__(self,
       qtypes,
       rollNumberFile,
-      submissions_dir = "../submissions/"):
+      submissions_dir = "submissions/"):
     self.qtypes = qtypes
     self.rollNumberFile = rollNumberFile
     self.submissions_dir = submissions_dir
     self.rollNumbers = utils.CSVReader.readRollNumbers(self.rollNumberFile)
     self.qreader = ReferenceReader(self.qtypes)
-    self.questionPaper = self.qreader.readQuestionPaper("theory-answers.csv")
+    self.questionPaper = self.qreader.readQuestionPaper("theory_answers.csv")
     self.areader = AnswerReader(self.qtypes)
-    reference = self.areader.readAnswers("theory-answers.csv")
+    reference = self.areader.readAnswers("theory_answers.csv")
     self.referenceScore = self.questionPaper.evaluate(reference)
 
   @property
@@ -285,11 +266,13 @@ class Evaluator:
   def __evaluate__(self, rollNumber):
     print("evaluating ", rollNumber, " ...")
     try:
-      ansfile = self.submissions_dir + rollNumber + "/theory-answers.csv"
+      ansfile = self.submissions_dir + rollNumber + "/response/theory_answers.csv"
+      if(not os.path.isfile(ansfile)):
+        raise FileNotExistsError(ansfile)
       answerSheet = self.getAnswerSheet(ansfile, rollNumber)
       return self.questionPaper.evaluate(answerSheet, rollNumber)
     except FileNotExistsError:
-      return "File " + ansfile + " not found."
+      return Score(rollNumber, [0.0] * 55)
     except IncompatibleLengthError as e:
       return e
     except Exception as e:
@@ -298,13 +281,14 @@ class Evaluator:
 
   def evaluate(self):
     results = {}
+
     for rollNumber in self.rollNumbers:
       results[rollNumber] = self.__evaluate__(rollNumber)
     with open("result.csv", "w") as fout:
       for rollNumber in results:
         row = rollNumber
         marks = functools.reduce(lambda x, y: x + ", " + str(y), results[rollNumber].itemScores, "")
-        row += marks
+        #row += marks
         row += ", " + str(results[rollNumber].total) + "\n"
         fout.write(row)
     return results
@@ -315,7 +299,7 @@ class JumbledEvaluator(Evaluator):
       self,
       qtypes,
       rollNumberFile,
-      AItoIBIFile="../AItoIBI.csv"):
+      AItoIBIFile=Path.applicationHome+"test/python_quiz/AItoIBI.csv"):
     self.AItoIBI = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, rollNumberFile)
 

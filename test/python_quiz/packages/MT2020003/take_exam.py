@@ -1,4 +1,3 @@
-# Not fully functional - some changes are need to be done
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -192,8 +191,6 @@ class MCQQuiz(letsQuiz):
         print(self.ques[self.question_counter][3])
         for j in range(self.ques[self.question_counter][3]):
             self.answerbutton[j].pack_forget()
-
-            
 class MTFQuiz(letsQuiz):
     def question(self):
         self.answers=[]        
