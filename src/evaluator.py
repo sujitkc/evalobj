@@ -8,17 +8,18 @@ import functools
 import traceback
 from src.path import Path
 import src.utils as utils
-import src.qtypes as qtypes
+import src.qtypes 
 
 
 sys.path.append(Path.applicationHome)
+
   
 class QuestionPaper:
   def __init__(self, questions, qtypes):
     self.questions = questions
     self.questionTypes = qtypes
-
   def evaluate(self, answers, rollNumber="reference"):
+
     itemScores = []
     for i in range(len(self.questionTypes)):
       itemScore = 0.0
@@ -73,14 +74,12 @@ class Reader:
   def parseRow(self, row, i):
 
     qtype = self.questionTypes[i]
-    className = qtype.__class__.__name__
-    className = className.replace("QType", "")
-    try:
-      method = "parseQ" + className
-      return getattr(self, method)(row, qtype)
-    except:
-      return None
-
+    if(qtype.__class__.__name__ == "MCQType"):
+      return self.parseMCQ(row, qtype)
+    elif(qtype.__class__.__name__ == "MTFQType"):
+      return self.parseMTF(row, qtype)
+    else:
+      return None 
   @staticmethod
   def parseMTFRow(row):
     def getChoices(ans):
@@ -89,6 +88,8 @@ class Reader:
 
     return [getChoices(cell) for cell in row]
 
+# ReferenceReader assumes that it is reading a reference file. Hence,
+#  it'll generate a list of questions.
 class ReferenceReader(Reader):
   def __init__(self, qtypes):
     Reader.__init__(self, qtypes)
@@ -106,6 +107,8 @@ class ReferenceReader(Reader):
   def readQuestionPaper(self, fileName):
     return QuestionPaper(self.__readContents__(fileName), self.questionTypes)
  
+# AnswerReader assumes that it is reading an answer file. Hence, it'll
+#  generate a list of answers.
 class AnswerReader(Reader):
   def __init__(self, qtypes):
     Reader.__init__(self, qtypes)
@@ -121,6 +124,12 @@ class AnswerReader(Reader):
   def readAnswers(self, fileName):
     return AnswerSheet(self.__readContents__(fileName))
 
+# Exception class to deal with the situation when the submission doesn't match
+# in length with the expected. It may happen when:
+# - when the number of items in the output is different from that in the
+# expected.
+# - when the number of choices in the individual item is different.
+# - ... or in other unforeseen situations of similar type.
 class IncompatibleLengthError(Exception):
   def __init__(self, e, a):
     self.expected = e
@@ -174,21 +183,15 @@ class MCQuestion(Question):
     if(len(self.expectedChoices) != len(answer)):
       raise IncompatibleLengthError(len(self.expectedChoices), len(answer))
     score = 0
-
     zipped = zip(self.expectedChoices, answer)
     for (a, b) in zipped:
-      if(a and b):
+      if(a == b):
         score += 1
-    print(self.expectedChoices)
-    print("test")
-    print(answer)
-    return float(score) / float(len(self.expected))
-    #return float(score) / float(self.domainSize)
+    return float(score) / float(self.domainSize)
 
   def evaluate(self, answer):
     expectedChoices = self.convert(self.expected)
-    if(answer == None):
-      return 0
+
     answerChoices = self.convert(answer)
 
     if(0 not in answer):
@@ -268,11 +271,14 @@ class Evaluator:
     try:
       ansfile = self.submissions_dir + rollNumber + "/response/theory_answers.csv"
       if(not os.path.isfile(ansfile)):
+        print(ansfile + ": file does not exist.")
         raise FileNotExistsError(ansfile)
+
       answerSheet = self.getAnswerSheet(ansfile, rollNumber)
+
       return self.questionPaper.evaluate(answerSheet, rollNumber)
     except FileNotExistsError:
-      return Score(rollNumber, [0.0] * 55)
+      return "File " + ansfile + " not found."
     except IncompatibleLengthError as e:
       return e
     except Exception as e:
@@ -281,14 +287,13 @@ class Evaluator:
 
   def evaluate(self):
     results = {}
-
     for rollNumber in self.rollNumbers:
       results[rollNumber] = self.__evaluate__(rollNumber)
     with open("result.csv", "w") as fout:
       for rollNumber in results:
         row = rollNumber
         marks = functools.reduce(lambda x, y: x + ", " + str(y), results[rollNumber].itemScores, "")
-        #row += marks
+        row += marks
         row += ", " + str(results[rollNumber].total) + "\n"
         fout.write(row)
     return results

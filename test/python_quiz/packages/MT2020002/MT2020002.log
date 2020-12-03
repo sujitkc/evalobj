@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.19)  30 SEP 2020 13:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.19)  28 OCT 2020 12:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -888,7 +888,7 @@ File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count355
 \l__pdf_internal_box=\box134
 )
-(packages/MT2020002/MT2020002.aux)
+No file MT2020002.aux.
 \openout1 = `MT2020002.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
@@ -907,7 +907,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
-
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count356
@@ -947,8 +946,6 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 35.
 LaTeX Info: Redefining \pageref on input line 35.
 LaTeX Info: Redefining \nameref on input line 35.
-
-(packages/MT2020002/MT2020002.out) (packages/MT2020002/MT2020002.out)
 \@outlinefile=\write4
 \openout4 = `MT2020002.out'.
 
@@ -970,38 +967,47 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/09/10 1.8c listings language file
 )
-(/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz//item-bank//item2.tex)
 (/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz//item-bank//item1.tex)
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz//item-bank//item2.tex)
+(/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz//item-bank//item4.tex)
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-This exam contains 2 questions with 0 parts, 0 subparts, and 0 subsubparts.
+This exam contains 3 questions with 0 parts, 0 subparts, and 0 subsubparts.
 This exam has a total of 0 points.
 This exam has a total of 0 bonus points.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 66.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 66.
+
+Class exam Warning: Point totals have changed. Rerun to get point totals right.
+
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 68.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 68.
 (packages/MT2020002/MT2020002.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 66.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 66.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 68.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 68.
 Package rerunfilecheck Info: File `MT2020002.out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 66.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 68.
  ) 
 Here is how much of TeX's memory you used:
- 22807 strings out of 481239
- 442710 string characters out of 5920377
- 909251 words of memory out of 5000000
- 37602 multiletter control sequences out of 15000+600000
+ 22812 strings out of 481239
+ 442839 string characters out of 5920377
+ 908199 words of memory out of 5000000
+ 37608 multiletter control sequences out of 15000+600000
  539138 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,83p,489b,455s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,10n,83p,489b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on packages/MT2020002/MT2020002.pdf (1 page, 37675 bytes).
+Output written on packages/MT2020002/MT2020002.pdf (1 page, 34925 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 45 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
+ 70 PDF objects out of 1000 (max. 8388607)
+ 47 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

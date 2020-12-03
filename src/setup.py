@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 
 import sys
@@ -60,15 +59,18 @@ class Configuration:
 
   def readItems(self, itemsData):
     def readItem(itemData):
-      qtype = str(itemData['properties']['qtype']) + "QType"
-      # MCQQType
-      try:
-        item = getattr(qtypes, qtype)(itemData)     
-        return item
-      except:
-        print("Class does not exist")
-
-        # exit()
+      name = itemData["name"]
+      properties = itemData["properties"]
+      options = int(properties["options"])
+      marks   = int(properties["marks"])
+      question = itemData["question"]
+      qtype = properties["qtype"]
+      if(properties["qtype"] == "MCQ"):
+        item = qtypes.MCQType(name,qtype, options, marks)
+      elif(properties["qtype"] == "MTF"):
+        rangeSize = int(properties["range"])
+        item = qtypes.MTFQType(name,qtype, options, rangeSize, marks)
+      return item
 
     return [readItem(i) for i in itemsData]
 
@@ -78,7 +80,9 @@ class Configuration:
     s += "import sys" + "\n"
 
     s += "sys.path.append(applicationHome)" + "\n"
-    s += "import src.qtypes as q" + "\n"
+    s += "from src.qtypes import MCQType" + "\n"
+    s += "from src.qtypes import MTFQType" + "\n\n"
+
     s += "courseName = \"" + self.courseName + "\"\n"
     s += "courseCode = \"" + self.courseCode + "\"\n"
     s += "assessmentName = \"" + self.assessmentName + "\"\n"

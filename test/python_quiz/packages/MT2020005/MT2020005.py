@@ -5,7 +5,7 @@ root.title('CHAOS_EXAM_GUI')
 root.geometry("700x600")
 frame1 = Frame(root)
 f = open('response/theory_answers.csv', 'w+')
-ques = [['item3', 'MCQ', 1.0, 4], ['item2', 'MTF', 1.0, 4, 3]]
+ques = [['MCQ', 1.0, 4, 0, 'item4'], ['MCQ', 1.0, 4, 0, 'item2'], ['MTF', 1.0, 3, 4, 'item3']]
 quiz = letsQuiz(root, ques, frame1)
 message_label1 = Label(text="IIITB EXAM PORTAL\nPYTHON QUIZ - [prep term]\n", font = ( "Arial", "25"), padx=40, pady=20)
 message_label2 = Label(root, text="Click 'Continue' to begin the exam.", wraplength=250)

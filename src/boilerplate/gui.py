@@ -16,11 +16,18 @@ class GUIGeneartor():
         self.applicationHome = Path.applicationHome
         self.ques = []
         for i in self.data:
-            d=i.toList()
+            d = []
+            d.append(i.type)
+            d.append(i.totalMarks)
+            d.append(i.domainSize)
+            if i.type == 'MCQ' :
+                d.append(0)
+            elif i.type == 'MTF' :
+                d.append(i.rangeSize)
+            d.append(i.name)
             self.ques.append(d)
         print(self.ques)
         self.display()
-
     def display(self):
         packageDirectory = self.applicationHome + "test/python_quiz/packages/"
         if (not os.path.exists(packageDirectory)):
@@ -48,6 +55,7 @@ class GUIGeneartor():
 
     def __str__(self):
         s = ""
+
         s += "from tkinter import *" + "\n"
         s += "from take_exam import letsQuiz" + "\n"
         s += "root = Tk()" + "\n"
@@ -55,18 +63,21 @@ class GUIGeneartor():
         s += "root.geometry(\"700x600\")" + "\n"
         s += "frame1 = Frame(root)" + "\n"
         s += "f = open('response/theory_answers.csv', 'w+')" + "\n"
+
         s += "ques = " + str(self.ques) + "\n"
         s += "quiz = letsQuiz(root, ques, frame1)" + "\n"
+
         s += "message_label1 = Label(text=\"IIITB EXAM PORTAL\\nPYTHON QUIZ - [prep term]\\n\", font = ( \"Arial\", \"25\"), padx=40, pady=20)" + "\n"
         s += "message_label2 = Label(root, text=\"Click 'Continue' to begin the exam.\", wraplength=250)" + "\n"
         s += "button1 = Button(root, text =\"Continue\", command=lambda:[message_label1.pack_forget(),message_label2.pack_forget(),button1.pack_forget(),quiz.packheader()], width=16, bg=\"teal\")" + "\n"
+
         s +="message_label1.pack()" + "\n"
         s += "message_label2.pack()" + "\n"
         s += "button1.pack()" + "\n"
         s += "root.protocol(\"WM_DELETE_WINDOW\", root.iconify)" + "\n"
+
         s += "root.mainloop()" + "\n"
         return s
-
 
 
 
