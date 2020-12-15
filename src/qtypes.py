@@ -1,14 +1,14 @@
 class QType:
-  def __init__(self, name,t,n, tm):
+  def __init__(self, name,t, tm):
     self.name       = name
     self.type       = t
-    self.domainSize = n
     self.totalMarks = float(tm)
     print(self.name)
 
 class MCQType(QType):
   def __init__(self, name, t, n, tm):
-    QType.__init__(self, name, t, n, tm)
+    QType.__init__(self, name, t,  tm)
+    self.domainSize = n
 
   def __str__(self):
     return "MCQType(\"" + self.name + "\"," +"\""+str(self.type) + "\"" + "," +str(self.domainSize) + ", " + str(self.totalMarks) + ")"
@@ -24,8 +24,9 @@ class MCQType(QType):
 
 class MTFQType(QType):
   def __init__(self, name, t, n1, n2, tm):
-    QType.__init__(self, name, t, n1, tm)
+    QType.__init__(self, name, t,  tm)
     self.rangeSize = n2
+    self.domainSize = n1
 
   def __str__(self):
     return "MTFQType(\"" + self.name + "\"," +"\""+str(self.type) + "\"" + ","+ str(self.domainSize) + ", " + str(self.rangeSize) + ", " + str(self.totalMarks) + ")"
@@ -53,3 +54,17 @@ class MTFQType(QType):
     s += "\\end{center}" + "\n"
 
     return s
+
+
+class FIBQType(QType):
+  def __init__(self, name, t, tm):
+    QType.__init__(self, name, t,  tm)
+ 
+  def __str__(self):
+    return "FIBQType(\"" + self.name + "\"," +"\""+str(self.type) + "\"" + ", " + str(self.totalMarks) + ")"
+
+  @property
+  def latexTemplate(self):
+    s = ""
+    return s
+ 

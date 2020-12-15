@@ -15,6 +15,7 @@ class letsQuiz:
         self.answerbutton1 = []  # mtf
         self.answers = []
         self.answers1 =[]
+        self.ans=""
         self.frame1 = frame1
 
         for i in range(len(ques)):
@@ -55,6 +56,9 @@ class letsQuiz:
 
         elif (self.ques[self.question_counter][0] == "MTF"):
             self.frame1.pack()
+        
+        elif(self.ques[self.question_counter][0] == "FIB"):
+            self.frame1.pack()
 
         self.nextButton.pack(side=RIGHT)
         self.prevButton.pack(side=LEFT)
@@ -68,7 +72,9 @@ class letsQuiz:
 
         elif (self.ques[self.question_counter][0] == "MTF"):
             self.frame1.pack_forget()
-
+        elif(self.ques[self.question_counter][0] == "FIB"):
+            self.frame1.pack_forget()
+            self.ans.pack_forget()
         self.nextButton.pack_forget()
         self.prevButton.pack_forget()
 
@@ -97,7 +103,16 @@ class letsQuiz:
             f.write(contents)
             f.close()
 
-
+        elif(self.ques[self.question_counter][0] == "FIB"):
+            f = open('response/theory_answers.csv', "r")
+            contents = f.readlines()
+            f.close()
+            contents[self.question_counter] = "\n"
+            contents.insert(self.question_counter,self.ans.get())
+            f = open('response/theory_answers.csv', "w")
+            contents = "".join(contents)
+            f.write(contents)
+            f.close()
 
         elif (self.ques[self.question_counter][0] == "MTF"):
 
@@ -195,7 +210,19 @@ class letsQuiz:
                     name = "Option " + str(j)
                     Checkbutton(self.frame1, text=name, var=self.answers1[i][j-1]).grid(row=i, column=j)
 
+    def fib_question(self):
+        f = open('response/theory_answers.csv', "r")
+        contents = f.readlines()
+        f.close()
+        k = contents[self.question_counter]
+        k=k[:-1]
+        v = StringVar(self.frame1, value=str(k))
+        self.ans = ""
+        self.ans = tk.Entry(self.frame1,textvariable=v)
+        self.ans.pack()
 
+    
+    
     def prev_question(self):
         self.forget_all()
         self.question_counter -= 1
@@ -209,6 +236,9 @@ class letsQuiz:
 
             elif (self.ques[self.question_counter][0] == "MTF"):
                 self.mtf_question()
+                
+            elif (self.ques[self.question_counter][0] == "FIB"):
+                self.fib_question()
 
                             # buttons
             self.prevButton = Button(self.newWindow, text="Prev",
@@ -241,7 +271,9 @@ class letsQuiz:
 
             elif (self.ques[self.question_counter][0] == "MTF"):
                 self.mtf_question()
-
+                
+            elif (self.ques[self.question_counter][0] == "FIB"):
+                self.fib_question()
                             # buttons
             self.prevButton = Button(self.newWindow, text="Prev",
                                      command=lambda: [self.onclick(), self.prev_question()])

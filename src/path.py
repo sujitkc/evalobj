@@ -2,4 +2,4 @@
 class Path:
 
 
-    applicationHome = "/home/keshav/Desktop/PE/AutomatedQuiz/"
+    applicationHome = "/home/keshav/Desktop/PE/EvalObj/"

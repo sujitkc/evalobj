@@ -1,19 +1,21 @@
 {
-  "course name"       : "Python-PrepTerm",
-  "course code"       : "SKC-Python",
-  "assessment name"   : "Quiz",
+  "course name"       : "DBMS",
+  "course code"       : "DBMS-XXXX",
+  "assessment name"   : "SampleQuiz",
   "assessment type"   : "jumbled",
-  "roll number file"  : "/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz/class.csv",
-  "assessment home"   : "/home/keshav/Desktop/PE/AutomatedQuiz/test/python_quiz/",
-  "number of items per assessment instrument" : "3",
+  "roll number file"  : "/home/keshav/Desktop/PE/EvalObj/test/sample_dbms_quiz/class.csv",
+  "assessment home"   : "/home/keshav/Desktop/PE/EvalObj/test/sample_dbms_quiz/",
+  "number of items per assessment instrument" : "5",
   "items"             : [
+
     {
       "name" : "item1",
       "question": "pquiz",
       "properties" : 
         {
-          "qtype" : "MCQ",
-          "options" : "4",
+         
+          "qtype" : "FIB",
+          "options" : "0",
           "range" : "0",
           "marks"   : "1"
         }
@@ -23,8 +25,8 @@
       "question": "pquiz",
       "properties" : 
         {
-          "qtype" : "MCQ",
-          "options" : "4",
+          "qtype" : "FIB",
+          "options" : "0",
           "range" : "0",
           "marks"   : "1"
         }
@@ -34,19 +36,88 @@
       "question": "pquiz",
       "properties" : 
         {
-          "qtype" : "MTF",
-          "options" : "3",
-          "range" : "4",
+          "qtype" : "FIB",
+          "options" : "0",
+          "range" : "0",
           "marks"   : "1"
         }
     },
-    {
+
+        {
       "name" : "item4",
       "question": "pquiz",
       "properties" : 
         {
+          "qtype" : "FIB",
+          "options" : "0",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+        {
+      "name" : "item5",
+      "question": "pquiz",
+      "properties" : 
+        {
+          "qtype" : "FIB",
+          "options" : "0",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+
+        {
+      "name" : "item6",
+      "question": "pquiz",
+      "properties" : 
+        {
           "qtype" : "MCQ",
-          "options" : "4",
+          "options" : "2",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+        {
+      "name" : "item7",
+      "question": "pquiz",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "2",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+        {
+      "name" : "item8",
+      "question": "pquiz",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "2",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+
+    {
+      "name" : "item9",
+      "question": "pquiz",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "2",
+          "range" : "0",
+          "marks"   : "1"
+        }
+    },
+    {
+      "name" : "item10",
+      "question": "pquiz",
+      "properties" : 
+        {
+          "qtype" : "MCQ",
+          "options" : "2",
           "range" : "0",
           "marks"   : "1"
         }

@@ -70,6 +70,9 @@ class Configuration:
       elif(properties["qtype"] == "MTF"):
         rangeSize = int(properties["range"])
         item = qtypes.MTFQType(name,qtype, options, rangeSize, marks)
+      elif(properties["qtype"] == "FIB"):
+        item = qtypes.FIBQType(name,qtype,marks)
+        
       return item
 
     return [readItem(i) for i in itemsData]
@@ -82,7 +85,7 @@ class Configuration:
     s += "sys.path.append(applicationHome)" + "\n"
     s += "from src.qtypes import MCQType" + "\n"
     s += "from src.qtypes import MTFQType" + "\n\n"
-
+    s += "from src.qtypes import FIBQType" + "\n\n"
     s += "courseName = \"" + self.courseName + "\"\n"
     s += "courseCode = \"" + self.courseCode + "\"\n"
     s += "assessmentName = \"" + self.assessmentName + "\"\n"

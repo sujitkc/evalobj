@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 import sys
 import os
 import csv
@@ -6,18 +7,32 @@ import string
 import subprocess
 import functools
 import traceback
-from src.path import Path
-import src.utils as utils
-import src.qtypes 
+#from src.path import Path
 
 
-sys.path.append(Path.applicationHome)
+#sys.path.append(Path.applicationHome)
+import utils
+import qtypes
+# Read from file the model answers and prepare a list of questions.
+# qtypes: Question type list. qtypes[i] is the question type of
+# i-th line in the input file. 
+# Reading rules:
+# - When reading i-th line from the file, refer to qtypes[i]
+# - If qtype[i] = MCQ(n), expect each cell to contain an integer.
+# - Else If qtype[i] = MTF(n1, n2)
+#     * expect each cell to contain a list of integers.
+#     * expect there to be exactly n1 number of cells in the row.
+#     * Each integer in a cell should be in the range (1, n2).
+#     * A cell may sometime be a list [0], in which case we assume that the
+#         corresponding option has not been attempted.
+# - Else (if qtype[i] = None)
+#     This line should be ignored
 
-  
 class QuestionPaper:
   def __init__(self, questions, qtypes):
     self.questions = questions
     self.questionTypes = qtypes
+
   def evaluate(self, answers, rollNumber="reference"):
 
     itemScores = []
@@ -62,7 +77,7 @@ class Reader:
       rows = list(csvContents)
     while(rowNum < len(rows)):
       row = rows[rowNum]
-      trimmedRow = [cell for cell in row if cell != ""]
+      trimmedRow = [cell for cell in row if cell is not ""]
       if(len(trimmedRow) != 0):
         parsedRow = self.parseRow(trimmedRow, rowNum)
         trimmedContents.append(parsedRow)
@@ -72,14 +87,16 @@ class Reader:
     return trimmedContents
 
   def parseRow(self, row, i):
-
     qtype = self.questionTypes[i]
     if(qtype.__class__.__name__ == "MCQType"):
       return self.parseMCQ(row, qtype)
     elif(qtype.__class__.__name__ == "MTFQType"):
       return self.parseMTF(row, qtype)
+    elif(qtype.__class__.__name__ == "FIBQType"):
+      return self.parseFIB(row, qtype)
     else:
-      return None 
+      return None
+
   @staticmethod
   def parseMTFRow(row):
     def getChoices(ans):
@@ -97,6 +114,10 @@ class ReferenceReader(Reader):
   @staticmethod
   def parseMCQ(row, qtype):
     return MCQuestion([int(cell) for cell in row], qtype)
+
+  @staticmethod
+  def parseFIB(row, qtype):
+    return FIBQuestion(row, qtype)
 
   @staticmethod
   def parseMTF(row, qtype):
@@ -202,6 +223,49 @@ class MCQuestion(Question):
   def __str__(self):
     return "MCQ(" + str(self.domainSize) + ", " + str(self.expected) + ")"
 
+class FIBQuestion(Question):
+  def __init__(self, expected, qtype):
+    Question.__init__(self,
+      expected = expected,
+      qtype = qtype)
+    self.expectedChoices = self.expected
+
+  # Function to translate [1, 3] to [True, False, True, False, False]
+  # def convert(self, indices):
+  #   choices = [False] * self.domainSize
+  #   for i in indices:
+  #     choices[int(i) - 1] = True # the - 1 is to deal with the offset of index.
+  #   return choices
+
+  # Given an expected answer and output answer, compare choice by choice.
+  # The score is out of 1. It is the fraction of choices that match to the
+  # total number of choices.
+  def score(self, answer):
+    if(len(self.expectedChoices) != len(answer)):
+      return 0
+    score = 0
+    if(self.expectedChoices == answer):
+      score += 1
+    # zipped = zip(self.expectedChoices, answer)
+    # for (a, b) in zipped:
+    #   if(a == b):
+    #     score += 1
+    return score
+    # return float(score) / float(self.domainSize)
+
+  def evaluate(self, answer):
+    expectedChoices = self.expected
+
+    answerChoices = answer
+
+    if(0 not in answer):
+      return self.score(answerChoices) * self.questionType.totalMarks
+    else:
+      return 0
+
+  def __str__(self):
+    return "FIB(" + ", " + str(self.expected) + ")"
+
 class MTFQuestion(Question):
   def __init__(self, e, qtype):
     Question.__init__(self, e, qtype)
@@ -248,15 +312,15 @@ class Evaluator:
   def __init__(self,
       qtypes,
       rollNumberFile,
-      submissions_dir = "submissions/"):
+      submissions_dir = "../submissions/"):
     self.qtypes = qtypes
     self.rollNumberFile = rollNumberFile
     self.submissions_dir = submissions_dir
     self.rollNumbers = utils.CSVReader.readRollNumbers(self.rollNumberFile)
     self.qreader = ReferenceReader(self.qtypes)
-    self.questionPaper = self.qreader.readQuestionPaper("theory_answers.csv")
+    self.questionPaper = self.qreader.readQuestionPaper("theory-answers.csv")
     self.areader = AnswerReader(self.qtypes)
-    reference = self.areader.readAnswers("theory_answers.csv")
+    reference = self.areader.readAnswers("theory-answers.csv")
     self.referenceScore = self.questionPaper.evaluate(reference)
 
   @property
@@ -269,13 +333,8 @@ class Evaluator:
   def __evaluate__(self, rollNumber):
     print("evaluating ", rollNumber, " ...")
     try:
-      ansfile = self.submissions_dir + rollNumber + "/response/theory_answers.csv"
-      if(not os.path.isfile(ansfile)):
-        print(ansfile + ": file does not exist.")
-        raise FileNotExistsError(ansfile)
-
+      ansfile = self.submissions_dir + rollNumber + "/theory-answers.csv"
       answerSheet = self.getAnswerSheet(ansfile, rollNumber)
-
       return self.questionPaper.evaluate(answerSheet, rollNumber)
     except FileNotExistsError:
       return "File " + ansfile + " not found."
@@ -304,7 +363,7 @@ class JumbledEvaluator(Evaluator):
       self,
       qtypes,
       rollNumberFile,
-      AItoIBIFile=Path.applicationHome+"test/python_quiz/AItoIBI.csv"):
+      AItoIBIFile="../AItoIBI.csv"):
     self.AItoIBI = utils.CSVReader.readAItoIBIFile(AItoIBIFile)
     Evaluator.__init__(self, qtypes, rollNumberFile)
 

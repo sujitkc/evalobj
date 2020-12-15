@@ -19,17 +19,18 @@ class GUIGeneartor():
             d = []
             d.append(i.type)
             d.append(i.totalMarks)
-            d.append(i.domainSize)
             if i.type == 'MCQ' :
+                d.append(i.domainSize)
                 d.append(0)
             elif i.type == 'MTF' :
+                d.append(i.domainSize)
                 d.append(i.rangeSize)
             d.append(i.name)
             self.ques.append(d)
         print(self.ques)
         self.display()
     def display(self):
-        packageDirectory = self.applicationHome + "test/python_quiz/packages/"
+        packageDirectory = self.applicationHome + "test/sample_dbms_quiz/packages/"
         if (not os.path.exists(packageDirectory)):
             os.mkdir(packageDirectory)
         aiDirec = packageDirectory + self.aiCode + "/"
@@ -67,7 +68,7 @@ class GUIGeneartor():
         s += "ques = " + str(self.ques) + "\n"
         s += "quiz = letsQuiz(root, ques, frame1)" + "\n"
 
-        s += "message_label1 = Label(text=\"IIITB EXAM PORTAL\\nPYTHON QUIZ - [prep term]\\n\", font = ( \"Arial\", \"25\"), padx=40, pady=20)" + "\n"
+        s += "message_label1 = Label(text=\"IIITB EXAM PORTAL\\nDBMS QUIZ - [prep term]\\n\", font = ( \"Arial\", \"25\"), padx=40, pady=20)" + "\n"
         s += "message_label2 = Label(root, text=\"Click 'Continue' to begin the exam.\", wraplength=250)" + "\n"
         s += "button1 = Button(root, text =\"Continue\", command=lambda:[message_label1.pack_forget(),message_label2.pack_forget(),button1.pack_forget(),quiz.packheader()], width=16, bg=\"teal\")" + "\n"
 
